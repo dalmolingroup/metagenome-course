@@ -12,23 +12,46 @@ $ fasterq-dump SRR579292 -e 8
 ::: callout-note
 ## Nota
 
-
 O argumento `-e` no comando `fasterq-dump` especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.
 :::
 
 ## Controle de Qualidade com FastQC e MultiQC
 
-**Sobre arquivos `.fastq`:** O formato `.fastq` contém sequências de leitura e suas qualidades, sendo essencial para análises de sequenciamento.
+### Estrutura de Arquivos `.fastq`
 
-**FastQC:** Ferramenta que gera relatórios de controle de qualidade para arquivos de sequenciamento, destacando problemas como baixa qualidade de base.
+O formato `.fastq` contém as sequências de DNA geradas no sequenciamento, junto com informações sobre a qualidade de cada nucleotídeo. A estrutura de um arquivo `.fastq` segue um padrão repetitivo a cada fragmento sequenciado:
 
-**MultiQC:** Consolida os relatórios do FastQC em um único documento, facilitando a visualização geral da qualidade das amostras.
+1.  **Linha 1:** Contém o identificador único da leitura, que pode incluir informações sobre o sequenciador e a amostra (começa com o símbolo `@`).
+2.  **Linha 2:** A sequência de nucleotídeos resultante do sequenciamento.
+3.  **Linha 3:** Opcionalmente usada para anotações ou descrições adicionais (começa com um símbolo `+`).
+4.  **Linha 4:** A qualidade de cada base na sequência, representada pelo Phred Score, que reflete a confiabilidade da leitura.
 
-Gere o relatório de controle de qualidade para cada amostra baixada com o FastQC:
+A imagem abaixo exemplifica essa estrutura:
+
+![](images/fastq_example.png){fig-align="center"}
+
+-   **Em Roxo:** Identificador da leitura.
+-   **Em Laranja:** Sequências adaptadoras (caso ainda não tenham sido removidas), que podem variar dependendo da plataforma de sequenciamento.
+-   **Em Azul:** O fragmento de DNA sequenciado, conhecido como "*Insert Size*".
+-   **Em Verde:** Phred Score, que indica a qualidade de cada base na sequência.
+
+### Ferramentas de Controle de Qualidade
+
+Para garantir que as sequências obtidas sejam de boa qualidade e adequadas para análise, utilizamos ferramentas como o **FastQC** e o **MultiQC**.
+
+-   **FastQC:** Avalia a qualidade de cada arquivo de sequenciamento individualmente, gerando relatórios com informações sobre a qualidade das bases, conteúdo GC, presença de adaptadores e outros aspectos que podem impactar a análise.
+-   **MultiQC:** Agrega os relatórios gerados pelo FastQC (ou outras ferramentas), criando um único relatório consolidado que facilita a visualização e interpretação dos dados de múltiplas amostras.
+
+### Gerando Relatórios de Qualidade
+
+Para gerar relatórios de controle de qualidade com o FastQC para cada uma das amostras baixadas, use o seguinte comando:
 
 ``` bash
 # Gerando relatórios de qualidade para cada amostra
-for sample in $(ls Pipeline/data/*.fastq.gz) do   fastqc $sample -o Pipeline/data done
+for sample in $(ls Pipeline/data/*.fastq.gz); 
+do
+fastqc $sample -o Pipeline/data
+done
 ```
 
 Gere o relatório consolidado contendo todas as amostras a partir do output do FastQC:
