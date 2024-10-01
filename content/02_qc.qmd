@@ -1,13 +1,20 @@
 # Controle de Qualidade e Pré-processamento
 
 ## Baixar Amostras
+
 Mude para o diretório `Pipeline/data` e baixe os arquivos de exemplo em pares (pair-end):
-```bash
+
+``` bash
 $ cd Pipeline/data
 $ fasterq-dump SRR579292 -e 8
 ```
 
-**Nota:** O argumento `-e` no comando `fasterq-dump` especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.
+::: callout-note
+## Nota
+
+
+O argumento `-e` no comando `fasterq-dump` especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.
+:::
 
 ## Controle de Qualidade com FastQC e MultiQC
 
@@ -19,16 +26,20 @@ $ fasterq-dump SRR579292 -e 8
 
 Gere o relatório de controle de qualidade para cada amostra baixada com o FastQC:
 
-```bash
+``` bash
 # Gerando relatórios de qualidade para cada amostra
 for sample in $(ls Pipeline/data/*.fastq.gz) do   fastqc $sample -o Pipeline/data done
 ```
 
 Gere o relatório consolidado contendo todas as amostras a partir do output do FastQC:
 
-```bash
+``` bash
 # Consolidando relatórios com MultiQC 
 $ multiqc Pipeline/data
 ```
 
-**Interpretando os resultados do MultiQC:** Verifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.
+::: callout-tip
+## Interpretando os resultados do MultiQC
+
+Verifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.
+:::

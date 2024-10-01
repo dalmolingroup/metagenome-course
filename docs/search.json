@@ -24,7 +24,7 @@
     "href": "content/02_qc.html",
     "title": "2  Controle de Qualidade e Pré-processamento",
     "section": "",
-    "text": "2.1 Baixar Amostras\nMude para o diretório Pipeline/data e baixe os arquivos de exemplo em pares (pair-end):\nNota: O argumento -e no comando fasterq-dump especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.",
+    "text": "2.1 Baixar Amostras\nMude para o diretório Pipeline/data e baixe os arquivos de exemplo em pares (pair-end):",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controle de Qualidade e Pré-processamento</span>"
     ]
@@ -34,7 +34,7 @@
     "href": "content/02_qc.html#baixar-amostras",
     "title": "2  Controle de Qualidade e Pré-processamento",
     "section": "",
-    "text": "$ cd Pipeline/data\n$ fasterq-dump SRR579292 -e 8",
+    "text": "$ cd Pipeline/data\n$ fasterq-dump SRR579292 -e 8\n\n\n\n\n\n\nNota\n\n\n\nO argumento -e no comando fasterq-dump especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controle de Qualidade e Pré-processamento</span>"
     ]
@@ -44,7 +44,7 @@
     "href": "content/02_qc.html#controle-de-qualidade-com-fastqc-e-multiqc",
     "title": "2  Controle de Qualidade e Pré-processamento",
     "section": "2.2 Controle de Qualidade com FastQC e MultiQC",
-    "text": "2.2 Controle de Qualidade com FastQC e MultiQC\nSobre arquivos .fastq: O formato .fastq contém sequências de leitura e suas qualidades, sendo essencial para análises de sequenciamento.\nFastQC: Ferramenta que gera relatórios de controle de qualidade para arquivos de sequenciamento, destacando problemas como baixa qualidade de base.\nMultiQC: Consolida os relatórios do FastQC em um único documento, facilitando a visualização geral da qualidade das amostras.\nGere o relatório de controle de qualidade para cada amostra baixada com o FastQC:\n# Gerando relatórios de qualidade para cada amostra\nfor sample in $(ls Pipeline/data/*.fastq.gz) do   fastqc $sample -o Pipeline/data done\nGere o relatório consolidado contendo todas as amostras a partir do output do FastQC:\n# Consolidando relatórios com MultiQC \n$ multiqc Pipeline/data\nInterpretando os resultados do MultiQC: Verifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.",
+    "text": "2.2 Controle de Qualidade com FastQC e MultiQC\nSobre arquivos .fastq: O formato .fastq contém sequências de leitura e suas qualidades, sendo essencial para análises de sequenciamento.\nFastQC: Ferramenta que gera relatórios de controle de qualidade para arquivos de sequenciamento, destacando problemas como baixa qualidade de base.\nMultiQC: Consolida os relatórios do FastQC em um único documento, facilitando a visualização geral da qualidade das amostras.\nGere o relatório de controle de qualidade para cada amostra baixada com o FastQC:\n# Gerando relatórios de qualidade para cada amostra\nfor sample in $(ls Pipeline/data/*.fastq.gz) do   fastqc $sample -o Pipeline/data done\nGere o relatório consolidado contendo todas as amostras a partir do output do FastQC:\n# Consolidando relatórios com MultiQC \n$ multiqc Pipeline/data\n\n\n\n\n\n\nInterpretando os resultados do MultiQC\n\n\n\nVerifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controle de Qualidade e Pré-processamento</span>"
     ]
@@ -64,7 +64,7 @@
     "href": "content/03_montagem.html#realizando-a-montagem",
     "title": "3  Montagem",
     "section": "3.2 Realizando a montagem",
-    "text": "3.2 Realizando a montagem\nVamos montar as leituras pós-descontaminação usando o MEGAHIT:\nmegahit -1 ../removal/unaligned_1.fastq -2\n../removal/unaligned_2.fastq -o SRR579292 -t 8 \nO arquivo de saída SRR579292.contigs.fa contém as sequências contíguas correspondentes às leituras usadas.\n\n\n\n\n\n\nNote\n\n\n\nOs passos seguintes, como a classificação taxonômica, podem se utilizar tanto das leituras quanto dos contigs. Iremos utilizar as leituras por motivos de didática, mas a maioria das ferramentas utilizadas para a análise de metagenômica podem fazer uso tanto de reads quanto de contigs.",
+    "text": "3.2 Realizando a montagem\nVamos montar as leituras pós-descontaminação usando o MEGAHIT:\nmegahit -1 ../removal/unaligned_1.fastq -2\n../removal/unaligned_2.fastq -o SRR579292 -t 8 \nO arquivo de saída SRR579292.contigs.fa contém as sequências contíguas correspondentes às leituras usadas.\n\n\n\n\n\n\nNota\n\n\n\nOs passos seguintes, como a classificação taxonômica, podem se utilizar tanto das leituras quanto dos contigs. Iremos utilizar as leituras por motivos de didática, mas a maioria das ferramentas utilizadas para a análise de metagenômica podem fazer uso tanto de reads quanto de contigs.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Montagem</span>"
     ]

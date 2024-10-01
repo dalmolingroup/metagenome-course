@@ -224,7 +224,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Mude para o diretório <code>Pipeline/data</code> e baixe os arquivos de exemplo em pares (pair-end):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd Pipeline/data</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> fasterq-dump SRR579292 <span class="at">-e</span> 8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Nota:</strong> O argumento <code>-e</code> no comando <code>fasterq-dump</code> especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O argumento <code>-e</code> no comando <code>fasterq-dump</code> especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.</p>
+</div>
+</div>
 </section>
 <section id="controle-de-qualidade-com-fastqc-e-multiqc" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="controle-de-qualidade-com-fastqc-e-multiqc"><span class="header-section-number">2.2</span> Controle de Qualidade com FastQC e MultiQC</h2>
@@ -237,7 +249,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Gere o relatório consolidado contendo todas as amostras a partir do output do FastQC:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consolidando relatórios com MultiQC </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> multiqc Pipeline/data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Interpretando os resultados do MultiQC:</strong> Verifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretando os resultados do MultiQC
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Verifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.</p>
+</div>
+</div>
 
 
 </section>
