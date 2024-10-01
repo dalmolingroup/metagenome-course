@@ -1,0 +1,32 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Análise de dados de Metagenômica",
+    "section": "",
+    "text": "Processamento e Análise de Dados de Metagenoma\nNeste repositório está o material para o curso Análise de dados de Metagenômica, organizado pelo Prof. Rodrigo Dalmolin, do Centro Multiusuário de Bioinformática da UFRN.\nO curso é dividido em 5 módulos:\n\nControle de qualidade e pré-processamento\nMontagem\nClassificação taxonômica\nAnotação funcional\nAnálises downstream:\n\nCálculos de diversidade e visualizações\nVisualizações da anotação funcional",
+    "crumbs": [
+      "Processamento e Análise de Dados de Metagenoma"
+    ]
+  },
+  {
+    "objectID": "content/01_setup.html",
+    "href": "content/01_setup.html",
+    "title": "1  Organizando Ambiente para Análise",
+    "section": "",
+    "text": "Primeiro, é necessário criar e ativar um ambiente Conda que contenha todas as ferramentas necessárias para os próximos passos. Caso ainda não tenha o Conda instalado, siga as instruções neste link.\n$ conda env create -f medusaPipeline.yml\n$ conda activate medusaPipeline\nA estrutura de diretórios a seguir ajudará na organização dos arquivos baixados, arquivos intermediários e seus outputs:\n$ mkdir -p ./Pipeline/{result,data/{merged,assembled,collapsed,removal/{index,reference},raw,trimmed},alignment/{db,index},taxonomic/db,functional/db}",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Organizando Ambiente para Análise</span>"
+    ]
+  },
+  {
+    "objectID": "content/02_qc.html",
+    "href": "content/02_qc.html",
+    "title": "2  Controle de Qualidade e Pré-processamento",
+    "section": "",
+    "text": "2.0.1 Baixar Amostras\nMude para o diretório Pipeline/data e baixe os arquivos de exemplo em pares (pair-end):\n$ cd Pipeline/data\n$ fasterq-dump SRR579292 -e 8\nNota: O argumento -e no comando fasterq-dump especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.\n\n\n2.0.2 Controle de Qualidade com FastQC e MultiQC\nSobre arquivos .fastq: O formato .fastq contém sequências de leitura e suas qualidades, sendo essencial para análises de sequenciamento.\nFastQC: Ferramenta que gera relatórios de controle de qualidade para arquivos de sequenciamento, destacando problemas como baixa qualidade de base.\nMultiQC: Consolida os relatórios do FastQC em um único documento, facilitando a visualização geral da qualidade das amostras.\nGere o relatório de controle de qualidade para cada amostra baixada com o FastQC:\n# Gerando relatórios de qualidade para cada amostra\nfor sample in $(ls Pipeline/data/*.fastq.gz) do   fastqc $sample -o Pipeline/data done\nGere o relatório consolidado contendo todas as amostras a partir do output do FastQC:\n# Consolidando relatórios com MultiQC \n$ multiqc Pipeline/data\nInterpretando os resultados do MultiQC: Verifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controle de Qualidade e Pré-processamento</span>"
+    ]
+  }
+]

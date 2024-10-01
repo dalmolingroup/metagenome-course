@@ -1,0 +1,31 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Análise de dados de Metagenômica"
+  author: "Dalmolin Systems Biology Group"
+  language: "pt-BR"
+  chapters:
+    - index.qmd
+    - content/01_setup.qmd
+    - content/02_qc.qmd
+    - content/03_montagem.qmd
+    - content/04_taxonomia.qmd
+    - content/05_anotacao.qmd
+    - content/06_analise_downstream.qmd
+
+toc: true
+number-sections: true
+
+knitr:
+  opts_chunk:
+    message: false
+    warning: false
+    results: false
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt

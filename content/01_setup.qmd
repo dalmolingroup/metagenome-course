@@ -1,0 +1,15 @@
+## Organizando Ambiente para Análise
+
+Primeiro, é necessário criar e ativar um ambiente Conda que contenha todas as ferramentas necessárias para os próximos passos. Caso ainda não tenha o Conda instalado, siga as instruções [neste link](link para instalar o conda).
+
+```bash
+$ conda env create -f medusaPipeline.yml
+$ conda activate medusaPipeline
+```
+
+
+A estrutura de diretórios a seguir ajudará na organização dos arquivos baixados, arquivos intermediários e seus outputs:
+
+```bash
+$ mkdir -p ./Pipeline/{result,data/{merged,assembled,collapsed,removal/{index,reference},raw,trimmed},alignment/{db,index},taxonomic/db,functional/db}
+```
