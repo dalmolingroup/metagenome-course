@@ -24,9 +24,79 @@
     "href": "content/02_qc.html",
     "title": "2  Controle de Qualidade e Pré-processamento",
     "section": "",
-    "text": "2.0.1 Baixar Amostras\nMude para o diretório Pipeline/data e baixe os arquivos de exemplo em pares (pair-end):\n$ cd Pipeline/data\n$ fasterq-dump SRR579292 -e 8\nNota: O argumento -e no comando fasterq-dump especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.\n\n\n2.0.2 Controle de Qualidade com FastQC e MultiQC\nSobre arquivos .fastq: O formato .fastq contém sequências de leitura e suas qualidades, sendo essencial para análises de sequenciamento.\nFastQC: Ferramenta que gera relatórios de controle de qualidade para arquivos de sequenciamento, destacando problemas como baixa qualidade de base.\nMultiQC: Consolida os relatórios do FastQC em um único documento, facilitando a visualização geral da qualidade das amostras.\nGere o relatório de controle de qualidade para cada amostra baixada com o FastQC:\n# Gerando relatórios de qualidade para cada amostra\nfor sample in $(ls Pipeline/data/*.fastq.gz) do   fastqc $sample -o Pipeline/data done\nGere o relatório consolidado contendo todas as amostras a partir do output do FastQC:\n# Consolidando relatórios com MultiQC \n$ multiqc Pipeline/data\nInterpretando os resultados do MultiQC: Verifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.",
+    "text": "2.1 Baixar Amostras\nMude para o diretório Pipeline/data e baixe os arquivos de exemplo em pares (pair-end):\nNota: O argumento -e no comando fasterq-dump especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controle de Qualidade e Pré-processamento</span>"
+    ]
+  },
+  {
+    "objectID": "content/02_qc.html#baixar-amostras",
+    "href": "content/02_qc.html#baixar-amostras",
+    "title": "2  Controle de Qualidade e Pré-processamento",
+    "section": "",
+    "text": "$ cd Pipeline/data\n$ fasterq-dump SRR579292 -e 8",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controle de Qualidade e Pré-processamento</span>"
+    ]
+  },
+  {
+    "objectID": "content/02_qc.html#controle-de-qualidade-com-fastqc-e-multiqc",
+    "href": "content/02_qc.html#controle-de-qualidade-com-fastqc-e-multiqc",
+    "title": "2  Controle de Qualidade e Pré-processamento",
+    "section": "2.2 Controle de Qualidade com FastQC e MultiQC",
+    "text": "2.2 Controle de Qualidade com FastQC e MultiQC\nSobre arquivos .fastq: O formato .fastq contém sequências de leitura e suas qualidades, sendo essencial para análises de sequenciamento.\nFastQC: Ferramenta que gera relatórios de controle de qualidade para arquivos de sequenciamento, destacando problemas como baixa qualidade de base.\nMultiQC: Consolida os relatórios do FastQC em um único documento, facilitando a visualização geral da qualidade das amostras.\nGere o relatório de controle de qualidade para cada amostra baixada com o FastQC:\n# Gerando relatórios de qualidade para cada amostra\nfor sample in $(ls Pipeline/data/*.fastq.gz) do   fastqc $sample -o Pipeline/data done\nGere o relatório consolidado contendo todas as amostras a partir do output do FastQC:\n# Consolidando relatórios com MultiQC \n$ multiqc Pipeline/data\nInterpretando os resultados do MultiQC: Verifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controle de Qualidade e Pré-processamento</span>"
+    ]
+  },
+  {
+    "objectID": "content/03_montagem.html",
+    "href": "content/03_montagem.html",
+    "title": "3  Montagem",
+    "section": "",
+    "text": "WORK IN PROGRESS",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Montagem</span>"
+    ]
+  },
+  {
+    "objectID": "content/04_taxonomia.html",
+    "href": "content/04_taxonomia.html",
+    "title": "4  Classificação Taxonômica",
+    "section": "",
+    "text": "WORK IN PROGRESS",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Classificação Taxonômica</span>"
+    ]
+  },
+  {
+    "objectID": "content/05_anotacao.html",
+    "href": "content/05_anotacao.html",
+    "title": "5  Anotação Funcional",
+    "section": "",
+    "text": "WORK IN PROGRESS",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Anotação Funcional</span>"
+    ]
+  },
+  {
+    "objectID": "content/06_analise_downstream.html",
+    "href": "content/06_analise_downstream.html",
+    "title": "6  Análises Downstream",
+    "section": "",
+    "text": "6.1 Cálculos de Diversidade",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Análises Downstream</span>"
+    ]
+  },
+  {
+    "objectID": "content/06_analise_downstream.html#extraindo-informação-funcional",
+    "href": "content/06_analise_downstream.html#extraindo-informação-funcional",
+    "title": "6  Análises Downstream",
+    "section": "6.2 Extraindo informação funcional",
+    "text": "6.2 Extraindo informação funcional",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Análises Downstream</span>"
     ]
   }
 ]

@@ -1,6 +1,6 @@
-## Controle de Qualidade e Pré-processamento
+# Controle de Qualidade e Pré-processamento
 
-### Baixar Amostras
+## Baixar Amostras
 Mude para o diretório `Pipeline/data` e baixe os arquivos de exemplo em pares (pair-end):
 ```bash
 $ cd Pipeline/data
@@ -9,7 +9,7 @@ $ fasterq-dump SRR579292 -e 8
 
 **Nota:** O argumento `-e` no comando `fasterq-dump` especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.
 
-### Controle de Qualidade com FastQC e MultiQC
+## Controle de Qualidade com FastQC e MultiQC
 
 **Sobre arquivos `.fastq`:** O formato `.fastq` contém sequências de leitura e suas qualidades, sendo essencial para análises de sequenciamento.
 

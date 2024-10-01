@@ -161,25 +161,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../content/03_montagem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">03_montagem.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Montagem</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../content/04_taxonomia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">04_taxonomia.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Classificação Taxonômica</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../content/05_anotacao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">05_anotacao.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Anotação Funcional</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../content/06_analise_downstream.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">06_analise_downstream.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Análises Downstream</span></span></a>
   </div>
 </li>
     </ul>
@@ -192,8 +192,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#baixar-amostras" id="toc-baixar-amostras" class="nav-link active" data-scroll-target="#baixar-amostras"><span class="header-section-number">2.0.1</span> Baixar Amostras</a></li>
-  <li><a href="#controle-de-qualidade-com-fastqc-e-multiqc" id="toc-controle-de-qualidade-com-fastqc-e-multiqc" class="nav-link" data-scroll-target="#controle-de-qualidade-com-fastqc-e-multiqc"><span class="header-section-number">2.0.2</span> Controle de Qualidade com FastQC e MultiQC</a></li>
+  <li><a href="#baixar-amostras" id="toc-baixar-amostras" class="nav-link active" data-scroll-target="#baixar-amostras"><span class="header-section-number">2.1</span> Baixar Amostras</a></li>
+  <li><a href="#controle-de-qualidade-com-fastqc-e-multiqc" id="toc-controle-de-qualidade-com-fastqc-e-multiqc" class="nav-link" data-scroll-target="#controle-de-qualidade-com-fastqc-e-multiqc"><span class="header-section-number">2.2</span> Controle de Qualidade com FastQC e MultiQC</a></li>
   </ul>
 </nav>
     </div>
@@ -219,15 +219,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="baixar-amostras" class="level3" data-number="2.0.1">
-<h3 data-number="2.0.1" class="anchored" data-anchor-id="baixar-amostras"><span class="header-section-number">2.0.1</span> Baixar Amostras</h3>
+<section id="baixar-amostras" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="baixar-amostras"><span class="header-section-number">2.1</span> Baixar Amostras</h2>
 <p>Mude para o diretório <code>Pipeline/data</code> e baixe os arquivos de exemplo em pares (pair-end):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd Pipeline/data</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> fasterq-dump SRR579292 <span class="at">-e</span> 8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Nota:</strong> O argumento <code>-e</code> no comando <code>fasterq-dump</code> especifica o número de threads que serão utilizadas. Adapte este argumento conforme o desempenho do seu sistema.</p>
 </section>
-<section id="controle-de-qualidade-com-fastqc-e-multiqc" class="level3" data-number="2.0.2">
-<h3 data-number="2.0.2" class="anchored" data-anchor-id="controle-de-qualidade-com-fastqc-e-multiqc"><span class="header-section-number">2.0.2</span> Controle de Qualidade com FastQC e MultiQC</h3>
+<section id="controle-de-qualidade-com-fastqc-e-multiqc" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="controle-de-qualidade-com-fastqc-e-multiqc"><span class="header-section-number">2.2</span> Controle de Qualidade com FastQC e MultiQC</h2>
 <p><strong>Sobre arquivos <code>.fastq</code>:</strong> O formato <code>.fastq</code> contém sequências de leitura e suas qualidades, sendo essencial para análises de sequenciamento.</p>
 <p><strong>FastQC:</strong> Ferramenta que gera relatórios de controle de qualidade para arquivos de sequenciamento, destacando problemas como baixa qualidade de base.</p>
 <p><strong>MultiQC:</strong> Consolida os relatórios do FastQC em um único documento, facilitando a visualização geral da qualidade das amostras.</p>
@@ -659,8 +659,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../content/03_montagem.html" class="pagination-link" aria-label="03_montagem.html">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">03_montagem.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../content/03_montagem.html" class="pagination-link" aria-label="Montagem">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Montagem</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

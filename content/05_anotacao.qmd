@@ -1,0 +1,5 @@
+# Anotação Funcional
+
+::: callout-warning
+## WORK IN PROGRESS
+:::
