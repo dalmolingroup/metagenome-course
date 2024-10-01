@@ -54,7 +54,17 @@
     "href": "content/03_montagem.html",
     "title": "3  Montagem",
     "section": "",
-    "text": "WORK IN PROGRESS",
+    "text": "3.1 Contexto\nAs reads, ou leituras, fragmentos de sequências gerados pelo processo de sequenciamento, podem ser re-organizadas e mescladas em sequências mais longas e contíguas, ou contigs. Esse processo é denominado de Montagem.\nPara se realizar montagem, você pode utilizar uma referência, como o genoma referência de um organismo, que servirá como base para organizar as contigs. No entanto, no contexto metagenômico, a modalidade de montagem geralmente realizada é a montagem livre de referência, ou montagem de novo.\nComo montador de novo, utilizaremos o MEGAHIT.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Montagem</span>"
+    ]
+  },
+  {
+    "objectID": "content/03_montagem.html#realizando-a-montagem",
+    "href": "content/03_montagem.html#realizando-a-montagem",
+    "title": "3  Montagem",
+    "section": "3.2 Realizando a montagem",
+    "text": "3.2 Realizando a montagem\nVamos montar as leituras pós-descontaminação usando o MEGAHIT:\nmegahit -1 ../removal/unaligned_1.fastq -2\n../removal/unaligned_2.fastq -o SRR579292 -t 8 \nO arquivo de saída SRR579292.contigs.fa contém as sequências contíguas correspondentes às leituras usadas.\n\n\n\n\n\n\nNote\n\n\n\nOs passos seguintes, como a classificação taxonômica, podem se utilizar tanto das leituras quanto dos contigs. Iremos utilizar as leituras por motivos de didática, mas a maioria das ferramentas utilizadas para a análise de metagenômica podem fazer uso tanto de reads quanto de contigs.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Montagem</span>"
     ]

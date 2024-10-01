@@ -3,3 +3,31 @@
 ::: callout-warning
 ## WORK IN PROGRESS
 :::
+
+## Contexto
+
+As *reads*, ou leituras, fragmentos de sequências gerados pelo processo de sequenciamento, podem ser re-organizadas e mescladas em sequências mais longas e contíguas, ou *contigs*.
+Esse processo é denominado de **Montagem**.
+
+Para se realizar montagem, você pode utilizar uma referência, como o genoma referência de um organismo, que servirá como base para
+organizar as *contigs*.
+No entanto, no contexto metagenômico, a modalidade de montagem geralmente realizada é a montagem livre de referência, ou montagem *de novo*.
+
+Como montador *de novo*, utilizaremos o [**MEGAHIT**](https://github.com/voutcn/megahit).
+
+## Realizando a montagem
+
+Vamos montar as leituras pós-descontaminação usando o MEGAHIT:
+
+```bash
+megahit -1 ../removal/unaligned_1.fastq -2
+../removal/unaligned_2.fastq -o SRR579292 -t 8 
+```
+
+O arquivo de saída `SRR579292.contigs.fa` contém as sequências contíguas correspondentes às leituras usadas.
+
+::: callout-note
+Os passos seguintes, como a classificação taxonômica, podem se utilizar tanto das leituras quanto dos contigs.
+Iremos utilizar as leituras por motivos de didática, mas a maioria das ferramentas utilizadas para a análise de metagenômica
+podem fazer uso tanto de *reads* quanto de *contigs*.
+:::
