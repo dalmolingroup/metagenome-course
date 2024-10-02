@@ -1,5 +1,9 @@
 # Controle de Qualidade e Pré-processamento
 
+::: callout-warning
+## WORK IN PROGRESS
+:::
+
 ## Baixar Amostras
 
 Mude para o diretório `Pipeline/data` e baixe os arquivos de exemplo em pares (pair-end):
@@ -30,7 +34,7 @@ A imagem abaixo exemplifica essa estrutura:
 
 ![](images/fastq_example.png){fig-align="center"}
 
--   **Em Roxo:** Identificador da leitura.
+-   **Em Roxo:** Identificador do sequenciamento.
 -   **Em Laranja:** Sequências adaptadoras (caso ainda não tenham sido removidas), que podem variar dependendo da plataforma de sequenciamento.
 -   **Em Azul:** O fragmento de DNA sequenciado, conhecido como "*Insert Size*".
 -   **Em Verde:** Phred Score, que indica a qualidade de cada base na sequência.

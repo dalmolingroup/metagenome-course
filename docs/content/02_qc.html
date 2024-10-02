@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Análise de dados de Metagenômica - 2&nbsp; Controle de Qualidade e Pré-processamento</title>
+<title>2&nbsp; Controle de Qualidade e Pré-processamento – Análise de dados de Metagenômica</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -112,13 +112,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../content/02_qc.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controle de Qualidade e Pré-processamento</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -193,7 +193,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#baixar-amostras" id="toc-baixar-amostras" class="nav-link active" data-scroll-target="#baixar-amostras"><span class="header-section-number">2.1</span> Baixar Amostras</a></li>
-  <li><a href="#controle-de-qualidade-com-fastqc-e-multiqc" id="toc-controle-de-qualidade-com-fastqc-e-multiqc" class="nav-link" data-scroll-target="#controle-de-qualidade-com-fastqc-e-multiqc"><span class="header-section-number">2.2</span> Controle de Qualidade com FastQC e MultiQC</a></li>
+  <li><a href="#controle-de-qualidade-com-fastqc-e-multiqc" id="toc-controle-de-qualidade-com-fastqc-e-multiqc" class="nav-link" data-scroll-target="#controle-de-qualidade-com-fastqc-e-multiqc"><span class="header-section-number">2.2</span> Controle de Qualidade com FastQC e MultiQC</a>
+  <ul class="collapse">
+  <li><a href="#estrutura-de-arquivos-.fastq" id="toc-estrutura-de-arquivos-.fastq" class="nav-link" data-scroll-target="#estrutura-de-arquivos-.fastq"><span class="header-section-number">2.2.1</span> Estrutura de Arquivos <code>.fastq</code></a></li>
+  <li><a href="#ferramentas-de-controle-de-qualidade" id="toc-ferramentas-de-controle-de-qualidade" class="nav-link" data-scroll-target="#ferramentas-de-controle-de-qualidade"><span class="header-section-number">2.2.2</span> Ferramentas de Controle de Qualidade</a></li>
+  <li><a href="#gerando-relatórios-de-qualidade" id="toc-gerando-relatórios-de-qualidade" class="nav-link" data-scroll-target="#gerando-relatórios-de-qualidade"><span class="header-section-number">2.2.3</span> Gerando Relatórios de Qualidade</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -219,6 +224,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+WORK IN PROGRESS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
 <section id="baixar-amostras" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="baixar-amostras"><span class="header-section-number">2.1</span> Baixar Amostras</h2>
 <p>Mude para o diretório <code>Pipeline/data</code> e baixe os arquivos de exemplo em pares (pair-end):</p>
@@ -240,12 +258,44 @@ Nota
 </section>
 <section id="controle-de-qualidade-com-fastqc-e-multiqc" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="controle-de-qualidade-com-fastqc-e-multiqc"><span class="header-section-number">2.2</span> Controle de Qualidade com FastQC e MultiQC</h2>
-<p><strong>Sobre arquivos <code>.fastq</code>:</strong> O formato <code>.fastq</code> contém sequências de leitura e suas qualidades, sendo essencial para análises de sequenciamento.</p>
-<p><strong>FastQC:</strong> Ferramenta que gera relatórios de controle de qualidade para arquivos de sequenciamento, destacando problemas como baixa qualidade de base.</p>
-<p><strong>MultiQC:</strong> Consolida os relatórios do FastQC em um único documento, facilitando a visualização geral da qualidade das amostras.</p>
-<p>Gere o relatório de controle de qualidade para cada amostra baixada com o FastQC:</p>
+<section id="estrutura-de-arquivos-.fastq" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="estrutura-de-arquivos-.fastq"><span class="header-section-number">2.2.1</span> Estrutura de Arquivos <code>.fastq</code></h3>
+<p>O formato <code>.fastq</code> contém as sequências de DNA geradas no sequenciamento, junto com informações sobre a qualidade de cada nucleotídeo. A estrutura de um arquivo <code>.fastq</code> segue um padrão repetitivo a cada fragmento sequenciado:</p>
+<ol type="1">
+<li><strong>Linha 1:</strong> Contém o identificador único da leitura, que pode incluir informações sobre o sequenciador e a amostra (começa com o símbolo <code>@</code>).</li>
+<li><strong>Linha 2:</strong> A sequência de nucleotídeos resultante do sequenciamento.</li>
+<li><strong>Linha 3:</strong> Opcionalmente usada para anotações ou descrições adicionais (começa com um símbolo <code>+</code>).</li>
+<li><strong>Linha 4:</strong> A qualidade de cada base na sequência, representada pelo Phred Score, que reflete a confiabilidade da leitura.</li>
+</ol>
+<p>A imagem abaixo exemplifica essa estrutura:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/fastq_example.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><strong>Em Roxo:</strong> Identificador do sequenciamento.</li>
+<li><strong>Em Laranja:</strong> Sequências adaptadoras (caso ainda não tenham sido removidas), que podem variar dependendo da plataforma de sequenciamento.</li>
+<li><strong>Em Azul:</strong> O fragmento de DNA sequenciado, conhecido como “<em>Insert Size</em>”.</li>
+<li><strong>Em Verde:</strong> Phred Score, que indica a qualidade de cada base na sequência.</li>
+</ul>
+</section>
+<section id="ferramentas-de-controle-de-qualidade" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="ferramentas-de-controle-de-qualidade"><span class="header-section-number">2.2.2</span> Ferramentas de Controle de Qualidade</h3>
+<p>Para garantir que as sequências obtidas sejam de boa qualidade e adequadas para análise, utilizamos ferramentas como o <strong>FastQC</strong> e o <strong>MultiQC</strong>.</p>
+<ul>
+<li><strong>FastQC:</strong> Avalia a qualidade de cada arquivo de sequenciamento individualmente, gerando relatórios com informações sobre a qualidade das bases, conteúdo GC, presença de adaptadores e outros aspectos que podem impactar a análise.</li>
+<li><strong>MultiQC:</strong> Agrega os relatórios gerados pelo FastQC (ou outras ferramentas), criando um único relatório consolidado que facilita a visualização e interpretação dos dados de múltiplas amostras.</li>
+</ul>
+</section>
+<section id="gerando-relatórios-de-qualidade" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="gerando-relatórios-de-qualidade"><span class="header-section-number">2.2.3</span> Gerando Relatórios de Qualidade</h3>
+<p>Para gerar relatórios de controle de qualidade com o FastQC para cada uma das amostras baixadas, use o seguinte comando:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerando relatórios de qualidade para cada amostra</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> Pipeline/data/<span class="pp">*</span>.fastq.gz<span class="va">)</span> do   fastqc <span class="va">$sample</span> <span class="at">-o</span> Pipeline/data done</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> Pipeline/data/<span class="pp">*</span>.fastq.gz<span class="va">)</span><span class="kw">;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="va">$sample</span> <span class="at">-o</span> Pipeline/data</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Gere o relatório consolidado contendo todas as amostras a partir do output do FastQC:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consolidando relatórios com MultiQC </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> multiqc Pipeline/data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -264,6 +314,7 @@ Interpretando os resultados do MultiQC
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -302,18 +353,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -345,7 +385,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -353,7 +415,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
