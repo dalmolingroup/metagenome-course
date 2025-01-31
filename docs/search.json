@@ -74,7 +74,17 @@
     "href": "content/04_taxonomia.html",
     "title": "4  Classificação Taxonômica",
     "section": "",
-    "text": "WORK IN PROGRESS",
+    "text": "4.1 Contexto",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Classificação Taxonômica</span>"
+    ]
+  },
+  {
+    "objectID": "content/04_taxonomia.html#realizando-a-classificação-taxonômica",
+    "href": "content/04_taxonomia.html#realizando-a-classificação-taxonômica",
+    "title": "4  Classificação Taxonômica",
+    "section": "4.2 Realizando a classificação taxonômica",
+    "text": "4.2 Realizando a classificação taxonômica\nMude o diretório atual para “Pipeline/taxonomic/db” e baixe os seguintes arquivos:\n$ wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz\n$ wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz\nEsses são os bancos de dados que utilizaremos para executar o Kaiju\nExtraia e descompacte os arquivos necessários:\n$ tar -xf taxdump.tar.gz nodes.dmp names.dmp\n$ pigz -d prot.accession2taxid.gz -p 8\nConstrua um índice Kaiju:\n$ kaiju-convertNR -t nodes.dmp -g prot.accession2taxid -e ~/miniconda3/envs/medusaPipeline/bin/kaiju-excluded-accessions.txt -a -o kaijuNR.fasta -i ../../alignment/db/nr\n$ kaiju-mkbwt -n 8 -a ACDEFGHIKLMNPQRSTVWY -o kaijuNR kaijuNR.fasta\n$ kaiju-mkfmi kaijuNR\nNota: Na chamada kaiju-convertNR, por padrão, são incluídas apenas sequências de Archaea, Bactérias e Vírus do NCBI-nr. Este comportamento pode ser alterado com o argumento -l, passando um arquivo de entrada como ~/miniconda3/envs/medusaPipeline/bin/kaiju-taxonlistEuk.tsv. Este argumento utiliza apenas sequências com ancestrais listados no arquivo.\nMude o diretório atual para “Pipeline/taxonomic” e execute a classificação taxonômica:\n$ kaiju -t db/nodes.dmp -f db/kaijuNR.fmi -i ../data/removal/unaligned_1.fastq -j ../data/removal/unaligned_2.fastq -o ../result/SRR579292_kaiju.out -z 8\nAdicione os nomes dos táxons ao output:\n$ kaiju-addTaxonNames -t db/nodes.dmp -n db/names.dmp -r superkingdom,phylum,class,order,family,genus,species -i ../result/SRR579292_kaiju.out -o ../result/SRR579292_kaiju.names\nGere os gráficos Krona:\n$ kaiju2krona -t db/nodes.dmp -n db/names.dmp -i ../result/SRR579292_kaiju.out -o ../result/SRR579292_kaiju2krona.out\n$ ktImportText -o ../result/SRR579292_krona.html ../result/SRR579292_kaiju2krona.out",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Classificação Taxonômica</span>"
     ]
@@ -84,7 +94,17 @@
     "href": "content/05_anotacao.html",
     "title": "5  Anotação Funcional",
     "section": "",
-    "text": "WORK IN PROGRESS",
+    "text": "5.1 annotate\nPara nosso primeiro exemplo, vamos utilizar a ferramenta annotate, que irá transferir identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do gene ontology.\nMas, para fazer isso, primeiro precisamos alinhar nosso dado a uma referência!",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Anotação Funcional</span>"
+    ]
+  },
+  {
+    "objectID": "content/05_anotacao.html#annotate",
+    "href": "content/05_anotacao.html#annotate",
+    "title": "5  Anotação Funcional",
+    "section": "",
+    "text": "5.1.1 Alinhamento\n\n\n5.1.2 Executando o annotate\n\nVamos primeiro filtrar as colunas do nosso arquivo de referência para as que contém identificadores do GenBank e do Gene Ontology:\n\nawk -F \"\\\\t\" '{if((\\$7!=\"\") && (\\$18!=\"\")){print \\$18\"\\\\t\"\\$7}}' idmapping_selected.tab &gt; genbank2GO.txt\n\nE fazer o mesmo para termos um arquivo que traduz identificadores RefSeq para Gene Ontology:\n\nawk -F \"\\\\t\" '{if((\\$4!=\"\") && (\\$7!=\"\")){print \\$4\"\\\\t\"\\$7}}' idmapping_selected.tab &gt; refseq2GO.txt\n\nPodemos então executar um script R que irá limpar os dois arquivos, preparando-os para o formato do annotate:\n\n\n\n\n\n\n\nAviso\n\n\n\nO script requer bastante memória para lidar com o arquivo de mapeamento do UniProt, podendo requerir até 80GB de memória RAM para um dicionário típico.\n\n\ncreateDictionary.R \\\n        NR2GO.txt \\\n        genbank2GO.txt \\\n        refseq2GO.txt \\\n        4\n\nEm sequência, criamos o banco de dados do annotate:\n\nannotate createdb NR2GO.txt NR2GO 0 1 -d db\n\nE executamos o annotate para anotar cada query do alinhamento para seu identificador funcional:\n\nannotate idmapping ../alignment/all_matches.m8 ../result/SRR579292_functional_GO.txt NR2GO -l 1 -d db\n\n\n\n\n\n\nNota\n\n\n\nO argumento -l determina qual o comprimento mínimo de um alinhamento para ele ser considerado.\n\n\n\nAo explorar o arquivo de resultado do annotate podemos ver que ele possui o seguinte formato: …",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Anotação Funcional</span>"
     ]
