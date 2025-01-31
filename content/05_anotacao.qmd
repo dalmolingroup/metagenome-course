@@ -3,3 +3,63 @@
 ::: callout-warning
 ## WORK IN PROGRESS
 :::
+
+## annotate
+
+Para nosso primeiro exemplo, vamos utilizar a ferramenta `annotate`, que irá transferir
+identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do gene ontology.
+
+Mas, para fazer isso, primeiro precisamos alinhar nosso dado a uma referência!
+
+### Alinhamento
+
+### Executando o annotate
+
+- Vamos primeiro filtrar as colunas do nosso arquivo de referência para as que contém identificadores do GenBank e do Gene Ontology:
+
+```bash
+awk -F "\\t" '{if((\$7!="") && (\$18!="")){print \$18"\\t"\$7}}' idmapping_selected.tab > genbank2GO.txt
+```
+
+- E fazer o mesmo para termos um arquivo que traduz identificadores RefSeq para Gene Ontology:
+
+```bash
+awk -F "\\t" '{if((\$4!="") && (\$7!="")){print \$4"\\t"\$7}}' idmapping_selected.tab > refseq2GO.txt
+```
+
+- Podemos então executar [um script R](https://raw.githubusercontent.com/dalmolingroup/euryale/refs/heads/main/bin/createDictionary.R) que irá limpar os dois arquivos, preparando-os para o formato do annotate:
+
+::: callout-warning
+## Aviso
+
+O script requer bastante memória para lidar com o arquivo de mapeamento do UniProt, podendo requerir até 80GB de memória RAM para um dicionário típico.
+:::
+
+```bash
+createDictionary.R \
+        NR2GO.txt \
+        genbank2GO.txt \
+        refseq2GO.txt \
+        4
+```
+
+- Em sequência, criamos o banco de dados do annotate:
+
+```bash
+annotate createdb NR2GO.txt NR2GO 0 1 -d db
+```
+
+- E executamos o annotate para anotar cada *query* do alinhamento para seu identificador funcional:
+
+```bash
+annotate idmapping ../alignment/all_matches.m8 ../result/SRR579292_functional_GO.txt NR2GO -l 1 -d db
+```
+
+
+::: callout-note
+## Nota
+
+O argumento `-l` determina qual o comprimento mínimo de um alinhamento para ele ser considerado.
+:::
+
+- Ao explorar o arquivo de resultado do annotate podemos ver que ele possui o seguinte formato: ...
