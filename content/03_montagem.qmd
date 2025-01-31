@@ -1,9 +1,5 @@
 # Montagem
 
-::: callout-warning
-## WORK IN PROGRESS
-:::
-
 ## Contexto
 
 As *reads*, ou leituras, fragmentos de sequências gerados pelo processo de sequenciamento, podem ser re-organizadas e mescladas em sequências mais longas e contíguas, ou *contigs*. Esse processo é denominado de **Montagem**.
