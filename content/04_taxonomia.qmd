@@ -1,5 +1,47 @@
 # Classificação Taxonômica
 
-::: callout-warning
-## WORK IN PROGRESS
-:::
+## Contexto
+
+
+
+## Realizando a classificação taxonômica
+
+Mude o diretório atual para "Pipeline/taxonomic/db" e baixe os seguintes arquivos:
+
+```bash
+$ wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz
+$ wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz
+```
+
+Esses são os bancos de dados que utilizaremos para executar o Kaiju
+
+Extraia e descompacte os arquivos necessários:
+```bash
+$ tar -xf taxdump.tar.gz nodes.dmp names.dmp
+$ pigz -d prot.accession2taxid.gz -p 8
+```
+
+Construa um índice Kaiju:
+```bash
+$ kaiju-convertNR -t nodes.dmp -g prot.accession2taxid -e ~/miniconda3/envs/medusaPipeline/bin/kaiju-excluded-accessions.txt -a -o kaijuNR.fasta -i ../../alignment/db/nr
+$ kaiju-mkbwt -n 8 -a ACDEFGHIKLMNPQRSTVWY -o kaijuNR kaijuNR.fasta
+$ kaiju-mkfmi kaijuNR
+```
+
+**Nota**: Na chamada `kaiju-convertNR`, por padrão, são incluídas apenas sequências de Archaea, Bactérias e Vírus do NCBI-nr. Este comportamento pode ser alterado com o argumento `-l`, passando um arquivo de entrada como `~/miniconda3/envs/medusaPipeline/bin/kaiju-taxonlistEuk.tsv`. Este argumento utiliza apenas sequências com ancestrais listados no arquivo.
+
+Mude o diretório atual para "Pipeline/taxonomic" e execute a classificação taxonômica:
+```bash
+$ kaiju -t db/nodes.dmp -f db/kaijuNR.fmi -i ../data/removal/unaligned_1.fastq -j ../data/removal/unaligned_2.fastq -o ../result/SRR579292_kaiju.out -z 8
+```
+
+Adicione os nomes dos táxons ao output:
+```bash
+$ kaiju-addTaxonNames -t db/nodes.dmp -n db/names.dmp -r superkingdom,phylum,class,order,family,genus,species -i ../result/SRR579292_kaiju.out -o ../result/SRR579292_kaiju.names
+```
+
+Gere os gráficos Krona:
+```bash
+$ kaiju2krona -t db/nodes.dmp -n db/names.dmp -i ../result/SRR579292_kaiju.out -o ../result/SRR579292_kaiju2krona.out
+$ ktImportText -o ../result/SRR579292_krona.html ../result/SRR579292_kaiju2krona.out
+```
