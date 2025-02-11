@@ -287,8 +287,8 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>No comando DIAMOND, o argumento <code>--un</code> especifica o arquivo usado para gravar as sequências não alinhadas, e <code>--top 3</code> reporta alinhamentos dentro dessa porcentagem da melhor pontuação de alinhamento.<br>
-O DIAMOND pode usar muita memória e espaço temporário em disco. Portanto, o programa pode falhar ao esgotar um desses recursos. O argumento <code>-b</code> especifica o tamanho do bloco e <code>-c</code> o número de partes para processamento do índice. O uso total de memória pode ser estimado aproximadamente como <strong>2(b+9b/c) GB</strong>. Em um servidor com alta memória, defina <code>-c 1</code>.</p>
+<p>No comando DIAMOND, o argumento <code>--un</code> especifica o arquivo usado para gravar as sequências não alinhadas, e <code>--top 3</code> reporta alinhamentos dentro dessa porcentagem da melhor pontuação de alinhamento.</p>
+<p>O DIAMOND pode usar muita memória e espaço temporário em disco. Portanto, o programa pode falhar ao esgotar um desses recursos. O argumento <code>-b</code> especifica o tamanho do bloco e <code>-c</code> o número de partes para processamento do índice. O uso total de memória pode ser estimado aproximadamente como <strong>2(b+9b/c) GB</strong>. Em um servidor com alta memória, defina <code>-c 1</code>.</p>
 </div>
 </div>
 <p>Realize um alinhamento mais sensível usando as sequências não alinhadas:</p>
@@ -399,13 +399,13 @@ Nota
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">--cpu</span> 6</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>As opções que utilizamos foram:</p>
 <ul>
-<li><p><code>-m</code>: Sinaliza o “modo” de execução do eggnog, neste caso a ferramenta que será utilizada para realizar a busca por sequências. No nosso caso utilizamos o DIAMOND, ferramenta que já conhecemos na <a href="#sec-diamond" class="quarto-xref">Sessão&nbsp;<span>5.1.1</span></a>.</p></li>
-<li><p><code>--itype</code>: Sinaliza o tipo de entrada (<em>input</em>) que damos a ferramenta, no nosso caso sequência contíguas originadas de um metagenoma.</p></li>
-<li><p><code>-i</code>: Determina a entrada para a ferramenta.</p></li>
-<li><p><code>-o</code>: Determina para onde deve ser escrita a saída da ferramenta.</p></li>
-<li><p><code>--cpu</code>: O número de núcleos de processamento a serem utilizados pela ferramenta.</p></li>
-<li><p>Uma vez que executamos o eggNOG-mapper, teremos um resultado no seguinte formato (<code>eggnog_results/SRR579292.emapper.annotations</code>):</p></li>
+<li><code>-m</code>: Sinaliza o “modo” de execução do eggnog, neste caso a ferramenta que será utilizada para realizar a busca por sequências. No nosso caso utilizamos o DIAMOND, ferramenta que já conhecemos na <a href="#sec-diamond" class="quarto-xref">Sessão&nbsp;<span>5.1.1</span></a>.</li>
+<li><code>--itype</code>: Sinaliza o tipo de entrada (<em>input</em>) que damos a ferramenta, no nosso caso sequência contíguas originadas de um metagenoma.</li>
+<li><code>-i</code>: Determina a entrada para a ferramenta.</li>
+<li><code>-o</code>: Determina para onde deve ser escrita a saída da ferramenta.</li>
+<li><code>--cpu</code>: O número de núcleos de processamento a serem utilizados pela ferramenta.</li>
 </ul>
+<p>Uma vez que executamos o eggNOG-mapper, teremos um resultado no seguinte formato (<code>eggnog_results/SRR579292.emapper.annotations</code>):</p>
 <pre><code>#query  seed_ortholog   evalue  score   eggNOG_OGs      max_annot_lvl   COG_category    Description     Preferred_name  GOs     EC      KEGG_ko KEGG_Pathway    KEGG_Module     KEGG_Reaction   KEGG_rclass     BRITE      KEGG_TC CAZy    BiGG_Reaction   PFAMs
 k141_94572      552396.HMPREF0863_01053 4.43e-45        159.0   COG0595@1|root,COG0595@2|Bacteria,1TQ9G@1239|Firmicutes,3VP2V@526524|Erysipelotrichia   526524|Erysipelotrichia S       Psort location Cytoplasmic, score  -       -       -       ko:K12574       ko03018,map03018        -       -       -       ko00000,ko00001,ko01000,ko03019 -       -       -       Lactamase_B,Lactamase_B_2,RMMBL
 k141_47286      1236514.BAKL01000034_gene2896   3.35e-79        254.0   COG5009@1|root,COG5009@2|Bacteria,4NECJ@976|Bacteroidetes,2FNAU@200643|Bacteroidia,4AKYH@815|Bacteroidaceae     976|Bacteroidetes       M COG5009 Membrane carboxypeptidase penicillin-binding protein     mrcA    -       2.4.1.129,3.4.16.4      ko:K05366       ko00550,ko01100,ko01501,map00550,map01100,map01501      -       -       -       ko00000,ko00001,ko01000,ko01003,ko01011    -       GT51    -       Transgly,Transpeptidase

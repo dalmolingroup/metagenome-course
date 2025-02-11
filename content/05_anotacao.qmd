@@ -46,7 +46,8 @@ $ diamond blastx -d index/nr -q ../data/collapsed/SRR579292.fasta -o matches.m8 
 ::: callout-note
 ## Nota
 
-No comando DIAMOND, o argumento `--un` especifica o arquivo usado para gravar as sequências não alinhadas, e `--top 3` reporta alinhamentos dentro dessa porcentagem da melhor pontuação de alinhamento.  
+No comando DIAMOND, o argumento `--un` especifica o arquivo usado para gravar as sequências não alinhadas, e `--top 3` reporta alinhamentos dentro dessa porcentagem da melhor pontuação de alinhamento.
+
 O DIAMOND pode usar muita memória e espaço temporário em disco. Portanto, o programa pode falhar ao esgotar um desses recursos. O argumento `-b` especifica o tamanho do bloco e `-c` o número de partes para processamento do índice. O uso total de memória pode ser estimado aproximadamente como **2(b+9b/c) GB**. Em um servidor com alta memória, defina `-c 1`.  
 :::
 
@@ -170,7 +171,7 @@ As opções que utilizamos foram:
 - `-o`: Determina para onde deve ser escrita a saída da ferramenta.
 - `--cpu`: O número de núcleos de processamento a serem utilizados pela ferramenta.
 
-- Uma vez que executamos o eggNOG-mapper, teremos um resultado no seguinte formato (`eggnog_results/SRR579292.emapper.annotations`):
+Uma vez que executamos o eggNOG-mapper, teremos um resultado no seguinte formato (`eggnog_results/SRR579292.emapper.annotations`):
 
 ```
 #query  seed_ortholog   evalue  score   eggNOG_OGs      max_annot_lvl   COG_category    Description     Preferred_name  GOs     EC      KEGG_ko KEGG_Pathway    KEGG_Module     KEGG_Reaction   KEGG_rclass     BRITE      KEGG_TC CAZy    BiGG_Reaction   PFAMs
