@@ -6,28 +6,29 @@
 
 ## annotate
 
-Para nosso primeiro exemplo, vamos utilizar a ferramenta `annotate`, que irá transferir
-identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do gene ontology.
+Para nosso primeiro exemplo, vamos utilizar a ferramenta [`annotate`](https://github.com/dalmolingroup/annotate), que irá transferir identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do gene ontology.
 
 Mas, para fazer isso, primeiro precisamos alinhar nosso dado a uma referência!
 
-### Alinhamento
+### Alinhamento {#sec-diamond}
+
+**ESCREVER**
 
 ### Executando o annotate
 
-- Vamos primeiro filtrar as colunas do nosso arquivo de referência para as que contém identificadores do GenBank e do Gene Ontology:
+-   Vamos primeiro filtrar as colunas do nosso arquivo de referência para as que contém identificadores do GenBank e do Gene Ontology:
 
-```bash
+``` bash
 awk -F "\\t" '{if((\$7!="") && (\$18!="")){print \$18"\\t"\$7}}' idmapping_selected.tab > genbank2GO.txt
 ```
 
-- E fazer o mesmo para termos um arquivo que traduz identificadores RefSeq para Gene Ontology:
+-   E fazer o mesmo para termos um arquivo que traduz identificadores RefSeq para Gene Ontology:
 
-```bash
+``` bash
 awk -F "\\t" '{if((\$4!="") && (\$7!="")){print \$4"\\t"\$7}}' idmapping_selected.tab > refseq2GO.txt
 ```
 
-- Podemos então executar [um script R](https://raw.githubusercontent.com/dalmolingroup/euryale/refs/heads/main/bin/createDictionary.R) que irá limpar os dois arquivos, preparando-os para o formato do annotate:
+-   Podemos então executar [um script R](https://raw.githubusercontent.com/dalmolingroup/euryale/refs/heads/main/bin/createDictionary.R) que irá limpar os dois arquivos, preparando-os para o formato do annotate:
 
 ::: callout-warning
 ## Aviso
@@ -35,7 +36,7 @@ awk -F "\\t" '{if((\$4!="") && (\$7!="")){print \$4"\\t"\$7}}' idmapping_selecte
 O script requer bastante memória para lidar com o arquivo de mapeamento do UniProt, podendo requerir até 80GB de memória RAM para um dicionário típico.
 :::
 
-```bash
+``` bash
 createDictionary.R \
         NR2GO.txt \
         genbank2GO.txt \
@@ -43,18 +44,17 @@ createDictionary.R \
         4
 ```
 
-- Em sequência, criamos o banco de dados do annotate:
+-   Em sequência, criamos o banco de dados do annotate:
 
-```bash
+``` bash
 annotate createdb NR2GO.txt NR2GO 0 1 -d db
 ```
 
-- E executamos o annotate para anotar cada *query* do alinhamento para seu identificador funcional:
+-   E executamos o annotate para anotar cada *query* do alinhamento para seu identificador funcional:
 
-```bash
+``` bash
 annotate idmapping ../alignment/all_matches.m8 ../result/SRR579292_functional_GO.txt NR2GO -l 1 -d db
 ```
-
 
 ::: callout-note
 ## Nota
@@ -62,4 +62,61 @@ annotate idmapping ../alignment/all_matches.m8 ../result/SRR579292_functional_GO
 O argumento `-l` determina qual o comprimento mínimo de um alinhamento para ele ser considerado.
 :::
 
-- Ao explorar o arquivo de resultado do annotate podemos ver que ele possui o seguinte formato: ...
+- Ao explorar o arquivo de resultado do annotate podemos ver que ele possui o seguinte formato:
+
+```
+Query   Annotation
+342-2   GO:0005829; GO:0008720; GO:0047964; GO:0030267; GO:0016618; GO:0051287
+1560-1  GO:0005829; GO:0005886; GO:0003854; GO:0102294; GO:0070403; GO:0016616; GO:0004769; GO:0030283; GO:0016042; GO:0006694; GO:0008202
+3588-1  GO:0000775; GO:0005737; GO:0005829; GO:0090443; GO:0110085; GO:0044732; GO:0005634; GO:0000159; GO:0019888; GO:0061509; GO:0030952; GO:1990813; GO:0031030; GO:0006470
+5204-1  GO:0016491; GO:0008202
+7527-1  Unknown
+9319-1  GO:0042802; GO:0030170; GO:0008483; GO:0006520; GO:0009058
+9922-1  GO:0000775; GO:0005737; GO:0005829; GO:0090443; GO:0110085; GO:0044732; GO:0005634; GO:0000159; GO:0019888; GO:0061509; GO:0030952; GO:1990813; GO:0031030; GO:0006470
+10306-1 Unknown
+12743-1 GO:0005524; GO:0140658; GO:0004386; GO:0016787
+```
+
+Para cada busca ("Query") do seu alinhamento original, temos uma ou mais anotações em termos do Gene Ontology ("Annotation")
+
+## eggNOG-mapper
+
+O eggNOG-mapper é uma ferramenta que realiza anotação funcional de sequências contíguas.
+Ele usa informação de ortologia e filogenia para transferir identificadores funcionais às sequências.
+O eggNOG-mapper pode ser executado através de uma [interface web](http://eggnog-mapper.embl.de/) mas aqui ilustraremos seu uso na linha de comando.
+
+Para isso, vamos utilizar as sequências contíguas que montamos anteriormente, na [Seção @sec-montagem].
+
+- O eggNOG-mapper pode ser executado da seguinte maneira:
+
+```bash
+emapper.py \
+        -m diamond \
+        --itype metagenome \
+        -i SRR579292.contigs.fa \
+        -o eggnog_results/SRR579292 \
+        --cpu 6
+```
+
+As opções que utilizamos foram:
+
+- `-m`: Sinaliza o "modo" de execução do eggnog, neste caso a ferramenta que será utilizada para realizar a busca por sequências. No nosso caso utilizamos o DIAMOND, ferramenta que já conhecemos na [Sessão @sec-diamond].
+- `--itype`: Sinaliza o tipo de entrada (*input*) que damos a ferramenta, no nosso caso sequência contíguas originadas de um metagenoma.
+- `-i`: Determina a entrada para a ferramenta.
+- `-o`: Determina para onde deve ser escrita a saída da ferramenta.
+- `--cpu`: O número de núcleos de processamento a serem utilizados pela ferramenta.
+
+- Uma vez que executamos o eggNOG-mapper, teremos um resultado no seguinte formato (`eggnog_results/SRR579292.emapper.annotations`):
+
+```
+#query  seed_ortholog   evalue  score   eggNOG_OGs      max_annot_lvl   COG_category    Description     Preferred_name  GOs     EC      KEGG_ko KEGG_Pathway    KEGG_Module     KEGG_Reaction   KEGG_rclass     BRITE      KEGG_TC CAZy    BiGG_Reaction   PFAMs
+k141_94572      552396.HMPREF0863_01053 4.43e-45        159.0   COG0595@1|root,COG0595@2|Bacteria,1TQ9G@1239|Firmicutes,3VP2V@526524|Erysipelotrichia   526524|Erysipelotrichia S       Psort location Cytoplasmic, score  -       -       -       ko:K12574       ko03018,map03018        -       -       -       ko00000,ko00001,ko01000,ko03019 -       -       -       Lactamase_B,Lactamase_B_2,RMMBL
+k141_47286      1236514.BAKL01000034_gene2896   3.35e-79        254.0   COG5009@1|root,COG5009@2|Bacteria,4NECJ@976|Bacteroidetes,2FNAU@200643|Bacteroidia,4AKYH@815|Bacteroidaceae     976|Bacteroidetes       M COG5009 Membrane carboxypeptidase penicillin-binding protein     mrcA    -       2.4.1.129,3.4.16.4      ko:K05366       ko00550,ko01100,ko01501,map00550,map01100,map01501      -       -       -       ko00000,ko00001,ko01000,ko01003,ko01011    -       GT51    -       Transgly,Transpeptidase
+k141_141858     158189.SpiBuddy_1606    8.08e-76        239.0   COG1593@1|root,COG1593@2|Bacteria,2J6XN@203691|Spirochaetes     203691|Spirochaetes     G       transporter, DctM subunit       -       -       - --       -       -       -       -       -       -       -       DctM
+k141_23643      272563.CD630_25090      3.3e-45 159.0   COG1486@1|root,COG1486@2|Bacteria,1TQ9I@1239|Firmicutes,24995@186801|Clostridia 186801|Clostridia       G       family 4        -       -       3.2.1.122,3.2.1.86 ko:K01222,ko:K01232     ko00010,ko00500,map00010,map00500       -       R00837,R00838,R00839,R05133,R05134,R06113       RC00049,RC00171,RC00714 ko00000,ko00001,ko01000 -       GH4,GT4 -       Glyco_hydro_4,Glyco_hydro_4C
+k141_70929      1122985.HMPREF1991_02897        3.54e-11        65.5    COG1595@1|root,COG1595@2|Bacteria,4NS12@976|Bacteroidetes,2FQ76@200643|Bacteroidia      976|Bacteroidetes       K       RNA polymerase sigma-70 factor     -       -       -       ko:K03088       -       -       -       -       ko00000,ko03021 -       -       -       Sigma70_r2,Sigma70_r4_2
+```
+
+Bastante informação! Mas essencialmente semelhante à ferramenta anterior: Temos em cada linha uma sequência de busca advinda do nosso arquivo de montagem, e em cada uma das outras colunas, anotações para diferentes bancos de dados de informação funcional, além de colunas detalhando a qualidade de alinhamnto das nossas sequências à esses identificadores.
+
+Para mais informações sobre o arquivo de saída do eggNOG-mapper, confira a [documentação da ferramenta](https://github.com/eggnogdb/eggnog-mapper/wiki/eggNOG-mapper-v2.1.2-to-v2.1.4#annotations-file).

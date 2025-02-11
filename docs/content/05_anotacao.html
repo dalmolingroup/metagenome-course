@@ -194,9 +194,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#annotate" id="toc-annotate" class="nav-link active" data-scroll-target="#annotate"><span class="header-section-number">5.1</span> annotate</a>
   <ul class="collapse">
-  <li><a href="#alinhamento" id="toc-alinhamento" class="nav-link" data-scroll-target="#alinhamento"><span class="header-section-number">5.1.1</span> Alinhamento</a></li>
+  <li><a href="#sec-diamond" id="toc-sec-diamond" class="nav-link" data-scroll-target="#sec-diamond"><span class="header-section-number">5.1.1</span> Alinhamento</a></li>
   <li><a href="#executando-o-annotate" id="toc-executando-o-annotate" class="nav-link" data-scroll-target="#executando-o-annotate"><span class="header-section-number">5.1.2</span> Executando o annotate</a></li>
   </ul></li>
+  <li><a href="#eggnog-mapper" id="toc-eggnog-mapper" class="nav-link" data-scroll-target="#eggnog-mapper"><span class="header-section-number">5.2</span> eggNOG-mapper</a></li>
   </ul>
 </nav>
     </div>
@@ -239,8 +240,9 @@ WORK IN PROGRESS
 <h2 data-number="5.1" class="anchored" data-anchor-id="annotate"><span class="header-section-number">5.1</span> annotate</h2>
 <p>Para nosso primeiro exemplo, vamos utilizar a ferramenta <code>annotate</code>, que irá transferir identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do gene ontology.</p>
 <p>Mas, para fazer isso, primeiro precisamos alinhar nosso dado a uma referência!</p>
-<section id="alinhamento" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="alinhamento"><span class="header-section-number">5.1.1</span> Alinhamento</h3>
+<section id="sec-diamond" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="sec-diamond"><span class="header-section-number">5.1.1</span> Alinhamento</h3>
+<p><strong>ESCREVER</strong></p>
 </section>
 <section id="executando-o-annotate" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="executando-o-annotate"><span class="header-section-number">5.1.2</span> Executando o annotate</h3>
@@ -295,11 +297,53 @@ Nota
 </div>
 </div>
 <ul>
-<li>Ao explorar o arquivo de resultado do annotate podemos ver que ele possui o seguinte formato: …</li>
+<li>Ao explorar o arquivo de resultado do annotate podemos ver que ele possui o seguinte formato:</li>
 </ul>
-
-
+<pre><code>Query   Annotation
+342-2   GO:0005829; GO:0008720; GO:0047964; GO:0030267; GO:0016618; GO:0051287
+1560-1  GO:0005829; GO:0005886; GO:0003854; GO:0102294; GO:0070403; GO:0016616; GO:0004769; GO:0030283; GO:0016042; GO:0006694; GO:0008202
+3588-1  GO:0000775; GO:0005737; GO:0005829; GO:0090443; GO:0110085; GO:0044732; GO:0005634; GO:0000159; GO:0019888; GO:0061509; GO:0030952; GO:1990813; GO:0031030; GO:0006470
+5204-1  GO:0016491; GO:0008202
+7527-1  Unknown
+9319-1  GO:0042802; GO:0030170; GO:0008483; GO:0006520; GO:0009058
+9922-1  GO:0000775; GO:0005737; GO:0005829; GO:0090443; GO:0110085; GO:0044732; GO:0005634; GO:0000159; GO:0019888; GO:0061509; GO:0030952; GO:1990813; GO:0031030; GO:0006470
+10306-1 Unknown
+12743-1 GO:0005524; GO:0140658; GO:0004386; GO:0016787</code></pre>
+<p>Para cada busca (“Query”) do seu alinhamento original, temos uma ou mais anotações em termos do Gene Ontology (“Annotation”)</p>
 </section>
+</section>
+<section id="eggnog-mapper" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="eggnog-mapper"><span class="header-section-number">5.2</span> eggNOG-mapper</h2>
+<p>O eggNOG-mapper é uma ferramenta que realiza anotação funcional de sequências contíguas. Ele usa informação de ortologia e filogenia para transferir identificadores funcionais às sequências. O eggNOG-mapper pode ser executado através de uma <a href="http://eggnog-mapper.embl.de/">interface web</a> mas aqui ilustraremos seu uso na linha de comando.</p>
+<p>Para isso, vamos utilizar as sequências contíguas que montamos anteriormente, na <a href="03_montagem.html" class="quarto-xref">Seção&nbsp;<span>3</span></a>.</p>
+<ul>
+<li>O eggNOG-mapper pode ser executado da seguinte maneira:</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">emapper.py</span> <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">-m</span> diamond <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">--itype</span> metagenome <span class="dt">\</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">-i</span> SRR579292.contigs.fa <span class="dt">\</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">-o</span> eggnog_results/SRR579292 <span class="dt">\</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">--cpu</span> 6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As opções que utilizamos foram:</p>
+<ul>
+<li><p><code>-m</code>: Sinaliza o “modo” de execução do eggnog, neste caso a ferramenta que será utilizada para realizar a busca por sequências. No nosso caso utilizamos o DIAMOND, ferramenta que já conhecemos na <a href="#sec-diamond" class="quarto-xref">Sessão&nbsp;<span>5.1.1</span></a>.</p></li>
+<li><p><code>--itype</code>: Sinaliza o tipo de entrada (<em>input</em>) que damos a ferramenta, no nosso caso sequência contíguas originadas de um metagenoma.</p></li>
+<li><p><code>-i</code>: Determina a entrada para a ferramenta.</p></li>
+<li><p><code>-o</code>: Determina para onde deve ser escrita a saída da ferramenta.</p></li>
+<li><p><code>--cpu</code>: O número de núcleos de processamento a serem utilizados pela ferramenta.</p></li>
+<li><p>Uma vez que executamos o eggNOG-mapper, teremos um resultado no seguinte formato (<code>eggnog_results/SRR579292.emapper.annotations</code>):</p></li>
+</ul>
+<pre><code>#query  seed_ortholog   evalue  score   eggNOG_OGs      max_annot_lvl   COG_category    Description     Preferred_name  GOs     EC      KEGG_ko KEGG_Pathway    KEGG_Module     KEGG_Reaction   KEGG_rclass     BRITE      KEGG_TC CAZy    BiGG_Reaction   PFAMs
+k141_94572      552396.HMPREF0863_01053 4.43e-45        159.0   COG0595@1|root,COG0595@2|Bacteria,1TQ9G@1239|Firmicutes,3VP2V@526524|Erysipelotrichia   526524|Erysipelotrichia S       Psort location Cytoplasmic, score  -       -       -       ko:K12574       ko03018,map03018        -       -       -       ko00000,ko00001,ko01000,ko03019 -       -       -       Lactamase_B,Lactamase_B_2,RMMBL
+k141_47286      1236514.BAKL01000034_gene2896   3.35e-79        254.0   COG5009@1|root,COG5009@2|Bacteria,4NECJ@976|Bacteroidetes,2FNAU@200643|Bacteroidia,4AKYH@815|Bacteroidaceae     976|Bacteroidetes       M COG5009 Membrane carboxypeptidase penicillin-binding protein     mrcA    -       2.4.1.129,3.4.16.4      ko:K05366       ko00550,ko01100,ko01501,map00550,map01100,map01501      -       -       -       ko00000,ko00001,ko01000,ko01003,ko01011    -       GT51    -       Transgly,Transpeptidase
+k141_141858     158189.SpiBuddy_1606    8.08e-76        239.0   COG1593@1|root,COG1593@2|Bacteria,2J6XN@203691|Spirochaetes     203691|Spirochaetes     G       transporter, DctM subunit       -       -       - --       -       -       -       -       -       -       -       DctM
+k141_23643      272563.CD630_25090      3.3e-45 159.0   COG1486@1|root,COG1486@2|Bacteria,1TQ9I@1239|Firmicutes,24995@186801|Clostridia 186801|Clostridia       G       family 4        -       -       3.2.1.122,3.2.1.86 ko:K01222,ko:K01232     ko00010,ko00500,map00010,map00500       -       R00837,R00838,R00839,R05133,R05134,R06113       RC00049,RC00171,RC00714 ko00000,ko00001,ko01000 -       GH4,GT4 -       Glyco_hydro_4,Glyco_hydro_4C
+k141_70929      1122985.HMPREF1991_02897        3.54e-11        65.5    COG1595@1|root,COG1595@2|Bacteria,4NS12@976|Bacteroidetes,2FQ76@200643|Bacteroidia      976|Bacteroidetes       K       RNA polymerase sigma-70 factor     -       -       -       ko:K03088       -       -       -       -       ko00000,ko03021 -       -       -       Sigma70_r2,Sigma70_r4_2</code></pre>
+<p>Bastante informação! Mas essencialmente semelhante à ferramenta anterior: Temos em cada linha uma sequência de busca advinda do nosso arquivo de montagem, e em cada uma das outras colunas, anotações para diferentes bancos de dados de informação funcional, além de colunas detalhando a qualidade de alinhamnto das nossas sequências à esses identificadores.</p>
+<p>Para mais informações sobre o arquivo de saída do eggNOG-mapper, confira a <a href="https://github.com/eggnogdb/eggnog-mapper/wiki/eggNOG-mapper-v2.1.2-to-v2.1.4#annotations-file">documentação da ferramenta</a>.</p>
+
+
 </section>
 
 </main> <!-- /main -->
