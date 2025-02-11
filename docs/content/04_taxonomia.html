@@ -248,7 +248,19 @@ WORK IN PROGRESS
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju-convertNR <span class="at">-t</span> nodes.dmp <span class="at">-g</span> prot.accession2taxid <span class="at">-e</span> ~/miniconda3/envs/medusaPipeline/bin/kaiju-excluded-accessions.txt <span class="at">-a</span> <span class="at">-o</span> kaijuNR.fasta <span class="at">-i</span> ../../alignment/db/nr</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju-mkbwt <span class="at">-n</span> 8 <span class="at">-a</span> ACDEFGHIKLMNPQRSTVWY <span class="at">-o</span> kaijuNR kaijuNR.fasta</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju-mkfmi kaijuNR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Nota</strong>: Na chamada <code>kaiju-convertNR</code>, por padrão, são incluídas apenas sequências de Archaea, Bactérias e Vírus do NCBI-nr. Este comportamento pode ser alterado com o argumento <code>-l</code>, passando um arquivo de entrada como <code>~/miniconda3/envs/medusaPipeline/bin/kaiju-taxonlistEuk.tsv</code>. Este argumento utiliza apenas sequências com ancestrais listados no arquivo.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Na chamada <code>kaiju-convertNR</code>, por padrão, são incluídas apenas sequências de Archaea, Bactérias e Vírus do NCBI-nr. Este comportamento pode ser alterado com o argumento <code>-l</code>, passando um arquivo de entrada como <code>~/miniconda3/envs/medusaPipeline/bin/kaiju-taxonlistEuk.tsv</code>. Este argumento utiliza apenas sequências com ancestrais listados no arquivo.</p>
+</div>
+</div>
 <p>Mude o diretório atual para “Pipeline/taxonomic” e execute a classificação taxonômica:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju <span class="at">-t</span> db/nodes.dmp <span class="at">-f</span> db/kaijuNR.fmi <span class="at">-i</span> ../data/removal/unaligned_1.fastq <span class="at">-j</span> ../data/removal/unaligned_2.fastq <span class="at">-o</span> ../result/SRR579292_kaiju.out <span class="at">-z</span> 8</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Adicione os nomes dos táxons ao output:</p>

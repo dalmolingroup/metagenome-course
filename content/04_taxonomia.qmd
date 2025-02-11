@@ -32,7 +32,11 @@ $ kaiju-mkbwt -n 8 -a ACDEFGHIKLMNPQRSTVWY -o kaijuNR kaijuNR.fasta
 $ kaiju-mkfmi kaijuNR
 ```
 
-**Nota**: Na chamada `kaiju-convertNR`, por padrão, são incluídas apenas sequências de Archaea, Bactérias e Vírus do NCBI-nr. Este comportamento pode ser alterado com o argumento `-l`, passando um arquivo de entrada como `~/miniconda3/envs/medusaPipeline/bin/kaiju-taxonlistEuk.tsv`. Este argumento utiliza apenas sequências com ancestrais listados no arquivo.
+::: callout-note
+## Nota
+
+Na chamada `kaiju-convertNR`, por padrão, são incluídas apenas sequências de Archaea, Bactérias e Vírus do NCBI-nr. Este comportamento pode ser alterado com o argumento `-l`, passando um arquivo de entrada como `~/miniconda3/envs/medusaPipeline/bin/kaiju-taxonlistEuk.tsv`. Este argumento utiliza apenas sequências com ancestrais listados no arquivo.
+:::
 
 Mude o diretório atual para "Pipeline/taxonomic" e execute a classificação taxonômica:
 ```bash
