@@ -2,10 +2,11 @@ project:
   type: book
   output-dir: docs
 
+lang: "pt-BR"
+
 book:
   title: "Análise de dados de Metagenômica"
   author: "Dalmolin Systems Biology Group"
-  language: "pt-BR"
   chapters:
     - index.qmd
     - content/01_setup.qmd
@@ -14,9 +15,13 @@ book:
     - content/04_taxonomia.qmd
     - content/05_anotacao.qmd
     - content/06_analise_downstream.qmd
-
-toc: true
-number-sections: true
+  reader-mode: true
+  favicon: content/images/dalmolin_icon.svg
+  site-url: https://dalmolingroup.github.io/metagenome-course/
+  repo-url: https://github.com/dalmolingroup/metagenome-course
+  page-footer:
+      Análise de Dados de Metagenômica é um curso construído por membros do
+      <a href="https://dalmolingroup.imd.ufrn.br/">Dalmolin Group</a>.
 
 knitr:
   opts_chunk:
@@ -27,5 +32,7 @@ knitr:
 format:
   html:
     theme: cosmo
+    callout-appearance: simple
+    code-link: true
   pdf:
     documentclass: scrreprt

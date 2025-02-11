@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://dalmolingroup.github.io/metagenome-course/index.html</loc>
+    <lastmod>2025-02-11T18:21:43.509Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dalmolingroup.github.io/metagenome-course/content/01_setup.html</loc>
+    <lastmod>2025-02-11T18:23:00.149Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dalmolingroup.github.io/metagenome-course/content/02_qc.html</loc>
+    <lastmod>2025-02-11T17:51:18.676Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dalmolingroup.github.io/metagenome-course/content/03_montagem.html</loc>
+    <lastmod>2025-02-11T16:42:23.779Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dalmolingroup.github.io/metagenome-course/content/04_taxonomia.html</loc>
+    <lastmod>2025-02-11T17:30:38.866Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dalmolingroup.github.io/metagenome-course/content/05_anotacao.html</loc>
+    <lastmod>2025-02-11T17:16:03.622Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dalmolingroup.github.io/metagenome-course/content/06_analise_downstream.html</loc>
+    <lastmod>2025-01-31T17:09:38.122Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dalmolingroup.github.io/metagenome-course/Análise-de-dados-de-Metagenômica.pdf</loc>
+    <lastmod>2025-02-11T18:23:32.859Z</lastmod>
+  </url>
+</urlset>
