@@ -199,6 +199,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#ferramentas-de-controle-de-qualidade" id="toc-ferramentas-de-controle-de-qualidade" class="nav-link" data-scroll-target="#ferramentas-de-controle-de-qualidade"><span class="header-section-number">2.2.2</span> Ferramentas de Controle de Qualidade</a></li>
   <li><a href="#gerando-relatórios-de-qualidade" id="toc-gerando-relatórios-de-qualidade" class="nav-link" data-scroll-target="#gerando-relatórios-de-qualidade"><span class="header-section-number">2.2.3</span> Gerando Relatórios de Qualidade</a></li>
   </ul></li>
+  <li><a href="#pré-processamento-das-leituras" id="toc-pré-processamento-das-leituras" class="nav-link" data-scroll-target="#pré-processamento-das-leituras"><span class="header-section-number">2.3</span> Pré-processamento das leituras</a>
+  <ul class="collapse">
+  <li><a href="#contexto" id="toc-contexto" class="nav-link" data-scroll-target="#contexto"><span class="header-section-number">2.3.1</span> Contexto</a></li>
+  <li><a href="#obtendo-os-dados" id="toc-obtendo-os-dados" class="nav-link" data-scroll-target="#obtendo-os-dados"><span class="header-section-number">2.3.2</span> Obtendo os dados</a></li>
+  <li><a href="#removendo-sequências-de-baixa-qualidade" id="toc-removendo-sequências-de-baixa-qualidade" class="nav-link" data-scroll-target="#removendo-sequências-de-baixa-qualidade"><span class="header-section-number">2.3.3</span> Removendo sequências de baixa qualidade</a></li>
+  <li><a href="#remoção-de-sequências-do-hospedeiro" id="toc-remoção-de-sequências-do-hospedeiro" class="nav-link" data-scroll-target="#remoção-de-sequências-do-hospedeiro"><span class="header-section-number">2.3.4</span> Remoção de Sequências do Hospedeiro</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -312,6 +319,113 @@ Interpretando os resultados do MultiQC
 <p>Verifique os gráficos de qualidade, presença de contaminantes e distribuições de qualidade das bases. Ajustes podem ser necessários para garantir a integridade dos dados para as etapas seguintes.</p>
 </div>
 </div>
+</section>
+</section>
+<section id="pré-processamento-das-leituras" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="pré-processamento-das-leituras"><span class="header-section-number">2.3</span> Pré-processamento das leituras</h2>
+<section id="contexto" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="contexto"><span class="header-section-number">2.3.1</span> Contexto</h3>
+<p>Como vimos na seção anterior, nosso arquivo pode ter sequências de baixa qualidade, sejam estas sequências adaptadoras ou simplesmente erros no procedimento do sequenciamento. Portanto, devemos remover essas sequências de nossas análises posteriores, a fim de não permitir que interfiram com ruído na informação biológica real.</p>
+<p>Para isso, obteremos uma amostra de sequenciamento (que será utilizada em todas as seções posteriores) e a processaremos com ferramentas de controle de qualidade, além de alinhar a amostra, de origem na microbiota humana, contra o genoma referência do hospedeiro, garantido que tenhamos apenas sequências advindas da microbiota.</p>
+</section>
+<section id="obtendo-os-dados" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="obtendo-os-dados"><span class="header-section-number">2.3.2</span> Obtendo os dados</h3>
+<p>Mude o diretório atual para <code>"Protocol/data"</code> e baixe os dados de exemplo:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> prefetch SRR579292 <span class="at">-X</span> 20G  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No comando <code>prefetch</code>, o argumento <code>-X</code> especifica o tamanho máximo do arquivo a ser baixado (adapte esse argumento se necessário).</p>
+</div>
+</div>
+<p>Obtenha as leituras paired-end:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> fasterq-dump SRR579292 <span class="at">-e</span> 8  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No comando <code>fasterq-dump</code>, o argumento <code>-e</code> especifica o número de threads a serem usadas (adapte esse argumento se necessário).</p>
+</div>
+</div>
+</section>
+<section id="removendo-sequências-de-baixa-qualidade" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="removendo-sequências-de-baixa-qualidade"><span class="header-section-number">2.3.3</span> Removendo sequências de baixa qualidade</h3>
+<p>Remova sequências de baixa qualidade e adaptadores:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> fastp <span class="at">-i</span> SRR579292_1.fastq <span class="at">-I</span> SRR579292_2.fastq <span class="at">-o</span> trimmed/SRR579292_1_trim.fastq <span class="at">-O</span> trimmed/SRR579292_2_trim.fastq <span class="at">-q</span> 20 <span class="at">-w</span> 8 <span class="at">--detect_adapter_for_pe</span> <span class="at">-h</span> trimmed/report.html <span class="at">-j</span> trimmed/fastp.json  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No comando <code>fastp</code>, o argumento <code>-q</code> define o limiar da pontuação de qualidade Phred, e <code>-w</code> especifica o número de threads a serem usadas (adapte esses argumentos se necessário).</p>
+</div>
+</div>
+<p>Um genoma de referência de <em>Homo sapiens</em> é necessário para remover as sequências do hospedeiro desses dados. Mude o diretório atual para <code>"Pipeline/data/removal/reference"</code> e baixe um genoma de referência do Ensembl.</p>
+</section>
+<section id="remoção-de-sequências-do-hospedeiro" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="remoção-de-sequências-do-hospedeiro"><span class="header-section-number">2.3.4</span> Remoção de Sequências do Hospedeiro</h3>
+<p>Baixe o genoma de referência de <em>Homo sapiens</em> do Ensembl:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> wget ftp://ftp.ensembl.org/pub/release-102/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz  </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pigz <span class="at">-d</span> Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz <span class="at">-p</span> 8  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O software <code>pigz</code> é uma implementação paralela do <code>gzip</code>. O argumento <code>-p</code> especifica o número de threads a serem usadas.</p>
+</div>
+</div>
+<p>Construa um índice Bowtie2:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> bowtie2-build Homo_sapiens.GRCh38.dna.primary_assembly.fa ../index/host <span class="at">--threads</span> 8  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Volte para <code>"Pipeline/data"</code> e alinhe as sequências contra a referência:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> bowtie2 <span class="at">-x</span> removal/index/host <span class="at">-1</span> trimmed/SRR579292_1_trim.fastq <span class="at">-2</span> trimmed/SRR579292_2_trim.fastq <span class="at">-S</span> removal/all.sam <span class="at">-p</span> 8  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Extraia as leituras não alinhadas:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> samtools view <span class="at">-bS</span> removal/all.sam <span class="op">&gt;</span> removal/all.bam  </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> samtools view <span class="at">-b</span> <span class="at">-f</span> 12 <span class="at">-F</span> 256 removal/all.bam <span class="op">&gt;</span> removal/unaligned.bam  </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> samtools sort <span class="at">-n</span> removal/unaligned.bam <span class="at">-o</span> removal/unaligned_sorted.bam  </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> samtools bam2fq removal/unaligned_sorted.bam <span class="op">&gt;</span> removal/unaligned.fastq  </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat removal/unaligned.fastq <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'^@.*/1$'</span> <span class="at">-A</span> 3 <span class="at">--no-group-separator</span> <span class="op">&gt;</span> removal/unaligned_1.fastq  </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat removal/unaligned.fastq <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'^@.*/2$'</span> <span class="at">-A</span> 3 <span class="at">--no-group-separator</span> <span class="op">&gt;</span> removal/unaligned_2.fastq  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No comando <code>SAMtools</code>, os argumentos <code>-f</code> e <code>-F</code> utilizam flags para especificar, respectivamente, quais alinhamentos devem ser extraídos e quais não devem ser extraídos. Consulte <a href="http://broadinstitute.github.io/picard/explain-flags.html">esta documentação</a> para saber mais sobre as flags disponíveis no SAMtools.</p>
+</div>
+</div>
+<p>Una as leituras paired-end:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> fastp <span class="at">-i</span> removal/unaligned_1.fastq <span class="at">-I</span> removal/unaligned_2.fastq <span class="at">-o</span> trimmed/unmerged_1.fastq <span class="at">-O</span> trimmed/unmerged_2.fastq <span class="at">-q</span> 20 <span class="at">-w</span> 8 <span class="at">--detect_adapter_for_pe</span> <span class="at">-h</span> trimmed/report2.html <span class="at">-j</span> trimmed/fastp2.json <span class="at">-m</span> <span class="at">--merged_out</span> merged/SRR579292_merged.fastq  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Remova sequências duplicadas:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> fastx_collapser <span class="at">-i</span> merged/SRR579292_merged.fastq <span class="at">-o</span> collapsed/SRR579292.fasta  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
