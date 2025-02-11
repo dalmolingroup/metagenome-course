@@ -12,7 +12,71 @@ Mas, para fazer isso, primeiro precisamos alinhar nosso dado a uma referência!
 
 ### Alinhamento {#sec-diamond}
 
-**ESCREVER**
+#### Adquirindo o banco de dados
+
+Mude o diretório atual para `"Pipeline/alignment/db"` e baixe o banco de dados de proteínas do NCBI-nr:  
+
+::: callout-warning
+## Aviso
+
+O banco de dados é **muito grande** e **inviável** de se instalar em um computador pessoal.
+Use um cluster de alta performance ou ambientes similares!
+:::
+
+```bash
+$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz  
+$ pigz -d nr.gz -p 8  
+```
+
+Construa um índice DIAMOND:  
+
+```bash
+$ diamond makedb --in nr -d ../index/nr  
+```
+
+#### Realizando o alinhamento
+
+Mude o diretório atual para `"Pipeline/alignment"` e alinhe as leituras contra o banco de dados de proteínas de referência:  
+
+```bash
+$ touch unaligned.fasta  
+$ diamond blastx -d index/nr -q ../data/collapsed/SRR579292.fasta -o matches.m8 --top 3 --un unaligned.fasta  
+```
+
+::: callout-note
+## Nota
+
+No comando DIAMOND, o argumento `--un` especifica o arquivo usado para gravar as sequências não alinhadas, e `--top 3` reporta alinhamentos dentro dessa porcentagem da melhor pontuação de alinhamento.  
+O DIAMOND pode usar muita memória e espaço temporário em disco. Portanto, o programa pode falhar ao esgotar um desses recursos. O argumento `-b` especifica o tamanho do bloco e `-c` o número de partes para processamento do índice. O uso total de memória pode ser estimado aproximadamente como **2(b+9b/c) GB**. Em um servidor com alta memória, defina `-c 1`.  
+:::
+
+Realize um alinhamento mais sensível usando as sequências não alinhadas:  
+
+```bash
+$ touch unaligned2.fasta  
+$ diamond blastx -d index/nr -q unaligned.fasta -o matches2.m8 --more-sensitive --top 3 --un unaligned2.fasta  
+```
+::: callout-note
+## Nota
+
+O modo padrão sensível é projetado para leituras curtas (~100 pb), encontrando hits com >60% de identidade. Para sequências mais longas, os modos sensíveis são recomendados. O DIAMOND é muito mais eficiente para arquivos grandes (>1 milhão de leituras).  
+:::
+
+Verifique o número de consultas que apresentam hits com pelo menos 80% de identidade em `matches2.m8`:  
+
+```bash
+$ awk '{ if ($3>=80) { print } }' matches2.m8 > check.m8  
+```
+
+```bash
+$ awk '{a[$1]++}END{for (i in a) sum+=1; print sum}' check.m8  
+```
+
+#### Concatenar os resultados do alinhamento:
+
+```bash
+$ cat matches.m8 matches2.m8 > all_matches.m8  
+```
 
 ### Executando o annotate
 
