@@ -1,9 +1,5 @@
 # Análises Downstream
 
-::: callout-warning
-## WORK IN PROGRESS
-:::
-
 ## Cálculos de Diversidade
 
 ## Extraindo informação funcional

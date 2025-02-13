@@ -1,9 +1,5 @@
 # Anotação Funcional
 
-::: callout-warning
-## WORK IN PROGRESS
-:::
-
 ## annotate
 
 Para nosso primeiro exemplo, vamos utilizar a ferramenta [`annotate`](https://github.com/dalmolingroup/annotate), que irá transferir identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do gene ontology.

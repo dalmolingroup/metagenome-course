@@ -1,16 +1,25 @@
 # Controle de Qualidade e Pré-processamento
 
-::: callout-warning
-## WORK IN PROGRESS
-:::
-
 ## Baixar Amostras
 
-Mude para o diretório `Pipeline/data` e baixe os arquivos de exemplo em pares (pair-end):
+Mude para o diretório `Pipeline/data` e baixe os dados de exemplo:
 
 ``` bash
-$ cd Pipeline/data
-$ fasterq-dump SRR579292 -e 8
+cd Pipeline/data
+
+prefetch SRR579292 -X 20G  
+```
+
+::: callout-note
+## Nota
+
+No comando `prefetch`, o argumento `-X` especifica o tamanho máximo do arquivo a ser baixado (adapte esse argumento se necessário).  
+:::
+
+Obtenha as leituras paired-end:  
+
+```bash
+$ fasterq-dump SRR579292 -e 8  
 ```
 
 ::: callout-note
@@ -81,32 +90,6 @@ a fim de não permitir que interfiram com ruído na informação biológica real
 Para isso, obteremos uma amostra de sequenciamento (que será utilizada em todas as seções posteriores) e a processaremos com
 ferramentas de controle de qualidade, além de alinhar a amostra, de origem na microbiota humana, contra o genoma referência do 
 hospedeiro, garantido que tenhamos apenas sequências advindas da microbiota.
-
-### Obtendo os dados
-
-Mude o diretório atual para `"Protocol/data"` e baixe os dados de exemplo:  
-
-```bash
-$ prefetch SRR579292 -X 20G  
-```
-
-::: callout-note
-## Nota
-
-No comando `prefetch`, o argumento `-X` especifica o tamanho máximo do arquivo a ser baixado (adapte esse argumento se necessário).  
-:::
-
-Obtenha as leituras paired-end:  
-
-```bash
-$ fasterq-dump SRR579292 -e 8  
-```
-
-::: callout-note
-## Nota
-
-No comando `fasterq-dump`, o argumento `-e` especifica o número de threads a serem usadas (adapte esse argumento se necessário).  
-:::
 
 ### Removendo sequências de baixa qualidade 
 

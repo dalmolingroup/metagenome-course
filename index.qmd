@@ -1,5 +1,12 @@
 # Processamento e Análise de Dados de Metagenoma {.unnumbered}
 
+::: callout-warning
+# Aviso
+
+O curso ainda está em construção então certos comandos podem não funcionar como
+esperado!
+:::
+
 Neste repositório está o material para o curso **Análise de dados de Metagenômica**,
 organizado pelo Prof. Rodrigo Dalmolin, do Centro Multiusuário de Bioinformática da UFRN.
 
