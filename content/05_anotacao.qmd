@@ -1,8 +1,14 @@
 # Anotação Funcional
 
+## Contexto
+
+Muitas vezes, uma análise metagenômica não está completa após a classificação taxonômica - afinal, um estudo composicional,
+apesar de útil, não mostra exatamente o que pode estar acontecendo em um microambiente em termos de vias metabólicas e funções biológicas.
+Para esse fim, portanto, temos o passo de anotação funcional, que consiste de inferir funções a partir das sequências obtidas do microbioma, se utilizando ou não da informação taxonômica. 
+
 ## annotate
 
-Para nosso primeiro exemplo, vamos utilizar a ferramenta [`annotate`](https://github.com/dalmolingroup/annotate), que irá transferir identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do gene ontology.
+Para nosso primeiro exemplo, vamos utilizar a ferramenta [`annotate`](https://github.com/dalmolingroup/annotate), que irá transferir identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do [Gene Ontology](https://www.geneontology.org/).
 
 Mas, para fazer isso, primeiro precisamos alinhar nosso dado a uma referência!
 
@@ -10,7 +16,7 @@ Mas, para fazer isso, primeiro precisamos alinhar nosso dado a uma referência!
 
 #### Realizando o alinhamento
 
-Mude o diretório atual para `"Pipeline/alignment"` e alinhe as leituras contra o banco de dados de proteínas de referência:
+Mude o diretório atual para `"Pipeline/alignment"` e alinhe as leituras contra o banco de dados de proteínas de referência (obtido na seção @sec-bdalign):
 
 ```bash
 touch unaligned.fasta

@@ -197,12 +197,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#annotate" id="toc-annotate" class="nav-link active" data-scroll-target="#annotate"><span class="header-section-number">5.1</span> annotate</a>
+  <li><a href="#contexto" id="toc-contexto" class="nav-link active" data-scroll-target="#contexto"><span class="header-section-number">5.1</span> Contexto</a></li>
+  <li><a href="#annotate" id="toc-annotate" class="nav-link" data-scroll-target="#annotate"><span class="header-section-number">5.2</span> annotate</a>
   <ul class="collapse">
-  <li><a href="#sec-diamond" id="toc-sec-diamond" class="nav-link" data-scroll-target="#sec-diamond"><span class="header-section-number">5.1.1</span> Alinhamento</a></li>
-  <li><a href="#executando-o-annotate" id="toc-executando-o-annotate" class="nav-link" data-scroll-target="#executando-o-annotate"><span class="header-section-number">5.1.2</span> Executando o annotate</a></li>
+  <li><a href="#sec-diamond" id="toc-sec-diamond" class="nav-link" data-scroll-target="#sec-diamond"><span class="header-section-number">5.2.1</span> Alinhamento</a></li>
+  <li><a href="#executando-o-annotate" id="toc-executando-o-annotate" class="nav-link" data-scroll-target="#executando-o-annotate"><span class="header-section-number">5.2.2</span> Executando o annotate</a></li>
   </ul></li>
-  <li><a href="#eggnog-mapper" id="toc-eggnog-mapper" class="nav-link" data-scroll-target="#eggnog-mapper"><span class="header-section-number">5.2</span> eggNOG-mapper</a></li>
+  <li><a href="#eggnog-mapper" id="toc-eggnog-mapper" class="nav-link" data-scroll-target="#eggnog-mapper"><span class="header-section-number">5.3</span> eggNOG-mapper</a></li>
   </ul>
 </nav>
     </div>
@@ -228,15 +229,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="annotate" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="annotate"><span class="header-section-number">5.1</span> annotate</h2>
-<p>Para nosso primeiro exemplo, vamos utilizar a ferramenta <a href="https://github.com/dalmolingroup/annotate"><code>annotate</code></a>, que irá transferir identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do gene ontology.</p>
+<section id="contexto" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="contexto"><span class="header-section-number">5.1</span> Contexto</h2>
+<p>Muitas vezes, uma análise metagenômica não está completa após a classificação taxonômica - afinal, um estudo composicional, apesar de útil, não mostra exatamente o que pode estar acontecendo em um microambiente em termos de vias metabólicas e funções biológicas. Para esse fim, portanto, temos o passo de anotação funcional, que consiste de inferir funções a partir das sequências obtidas do microbioma, se utilizando ou não da informação taxonômica.</p>
+</section>
+<section id="annotate" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="annotate"><span class="header-section-number">5.2</span> annotate</h2>
+<p>Para nosso primeiro exemplo, vamos utilizar a ferramenta <a href="https://github.com/dalmolingroup/annotate"><code>annotate</code></a>, que irá transferir identificadores de um resultado de alinhamento para identificadores funcionais, nesse caso termos do <a href="https://www.geneontology.org/">Gene Ontology</a>.</p>
 <p>Mas, para fazer isso, primeiro precisamos alinhar nosso dado a uma referência!</p>
-<section id="sec-diamond" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="sec-diamond"><span class="header-section-number">5.1.1</span> Alinhamento</h3>
-<section id="realizando-o-alinhamento" class="level4" data-number="5.1.1.1">
-<h4 data-number="5.1.1.1" class="anchored" data-anchor-id="realizando-o-alinhamento"><span class="header-section-number">5.1.1.1</span> Realizando o alinhamento</h4>
-<p>Mude o diretório atual para <code>"Pipeline/alignment"</code> e alinhe as leituras contra o banco de dados de proteínas de referência:</p>
+<section id="sec-diamond" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="sec-diamond"><span class="header-section-number">5.2.1</span> Alinhamento</h3>
+<section id="realizando-o-alinhamento" class="level4" data-number="5.2.1.1">
+<h4 data-number="5.2.1.1" class="anchored" data-anchor-id="realizando-o-alinhamento"><span class="header-section-number">5.2.1.1</span> Realizando o alinhamento</h4>
+<p>Mude o diretório atual para <code>"Pipeline/alignment"</code> e alinhe as leituras contra o banco de dados de proteínas de referência (obtido na seção <a href="04_taxonomia.html#sec-bdalign" class="quarto-xref"><span>Seção 4.2</span></a>):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> unaligned.fasta</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">diamond</span> blastx <span class="at">-d</span> index/nr <span class="at">-q</span> ../data/collapsed/SRR579292.fasta <span class="at">-o</span> matches.m8 <span class="at">--top</span> 3 <span class="at">--un</span> unaligned.fasta</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
@@ -273,13 +278,13 @@ Nota
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'{ if ($3&gt;=80) { print } }'</span> matches2.m8 <span class="op">&gt;</span> check.m8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'{a[$1]++}END{for (i in a) sum+=1; print sum}'</span> check.m8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="concatenar-os-resultados-do-alinhamento" class="level4" data-number="5.1.1.2">
-<h4 data-number="5.1.1.2" class="anchored" data-anchor-id="concatenar-os-resultados-do-alinhamento"><span class="header-section-number">5.1.1.2</span> Concatenar os resultados do alinhamento:</h4>
+<section id="concatenar-os-resultados-do-alinhamento" class="level4" data-number="5.2.1.2">
+<h4 data-number="5.2.1.2" class="anchored" data-anchor-id="concatenar-os-resultados-do-alinhamento"><span class="header-section-number">5.2.1.2</span> Concatenar os resultados do alinhamento:</h4>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> matches.m8 matches2.m8 <span class="op">&gt;</span> all_matches.m8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="executando-o-annotate" class="level3" data-number="5.1.2">
-<h3 data-number="5.1.2" class="anchored" data-anchor-id="executando-o-annotate"><span class="header-section-number">5.1.2</span> Executando o annotate</h3>
+<section id="executando-o-annotate" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="executando-o-annotate"><span class="header-section-number">5.2.2</span> Executando o annotate</h3>
 <ul>
 <li>Vamos primeiro filtrar as colunas do nosso arquivo de referência para as que contém identificadores do GenBank e do Gene Ontology:</li>
 </ul>
@@ -346,8 +351,8 @@ Nota
 <p>Para cada busca (“Query”) do seu alinhamento original, temos uma ou mais anotações em termos do Gene Ontology (“Annotation”)</p>
 </section>
 </section>
-<section id="eggnog-mapper" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="eggnog-mapper"><span class="header-section-number">5.2</span> eggNOG-mapper</h2>
+<section id="eggnog-mapper" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="eggnog-mapper"><span class="header-section-number">5.3</span> eggNOG-mapper</h2>
 <p>O eggNOG-mapper é uma ferramenta que realiza anotação funcional de sequências contíguas. Ele usa informação de ortologia e filogenia para transferir identificadores funcionais às sequências. O eggNOG-mapper pode ser executado através de uma <a href="http://eggnog-mapper.embl.de/">interface web</a> mas aqui ilustraremos seu uso na linha de comando.</p>
 <p>Para isso, vamos utilizar as sequências contíguas que montamos anteriormente, na <a href="03_montagem.html" class="quarto-xref">Seção&nbsp;<span>3</span></a>.</p>
 <ul>
@@ -361,7 +366,7 @@ Nota
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">--cpu</span> 6</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>As opções que utilizamos foram:</p>
 <ul>
-<li><code>-m</code>: Sinaliza o “modo” de execução do eggnog, neste caso a ferramenta que será utilizada para realizar a busca por sequências. No nosso caso utilizamos o DIAMOND, ferramenta que já conhecemos na <a href="#sec-diamond" class="quarto-xref">Sessão&nbsp;<span>5.1.1</span></a>.</li>
+<li><code>-m</code>: Sinaliza o “modo” de execução do eggnog, neste caso a ferramenta que será utilizada para realizar a busca por sequências. No nosso caso utilizamos o DIAMOND, ferramenta que já conhecemos na <a href="#sec-diamond" class="quarto-xref">Sessão&nbsp;<span>5.2.1</span></a>.</li>
 <li><code>--itype</code>: Sinaliza o tipo de entrada (<em>input</em>) que damos a ferramenta, no nosso caso sequência contíguas originadas de um metagenoma.</li>
 <li><code>-i</code>: Determina a entrada para a ferramenta.</li>
 <li><code>-o</code>: Determina para onde deve ser escrita a saída da ferramenta.</li>
