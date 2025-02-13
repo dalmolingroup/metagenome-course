@@ -1,5 +1,0 @@
-# Análises Downstream
-
-## Cálculos de Diversidade
-
-## Extraindo informação funcional

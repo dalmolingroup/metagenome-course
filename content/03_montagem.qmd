@@ -8,6 +8,8 @@ Para se realizar montagem, você pode utilizar uma referência, como o genoma re
 
 Como montador *de novo*, utilizaremos o [**MEGAHIT**](https://github.com/voutcn/megahit).
 
+![[Bioinformaticamente](https://bioinformaticamente.com/2020/12/16/assembly-of-reads/)](images/read_assembly.jpg)
+
 ## Realizando a montagem
 
 Vamos montar as leituras pós-descontaminação usando o MEGAHIT:
