@@ -14,7 +14,7 @@
     "href": "content/01_setup.html",
     "title": "1  Organizando Ambiente para Análise",
     "section": "",
-    "text": "Primeiro, é necessário criar e ativar um ambiente Conda que contenha todas as ferramentas necessárias para os próximos passos. Caso ainda não tenha o Conda instalado, siga as instruções neste link.\nVá até este link para adquirir o arquivo environment.yml.\nconda env create -f environment.yml\nconda activate medusaPipeline\nA estrutura de diretórios a seguir ajudará na organização dos arquivos baixados, arquivos intermediários e seus outputs:\nmkdir -p ./Pipeline/{result,data/{merged,assembled,collapsed,removal/{index,reference},raw,trimmed},alignment/{db,index},taxonomic/db,functional/db}",
+    "text": "Primeiro, é necessário criar e ativar um ambiente Conda que contenha todas as ferramentas necessárias para os próximos passos. Caso ainda não tenha o Conda instalado, siga as instruções neste link.\nVá até este link para adquirir o arquivo environment.yml.\nconda env create -f environment.yml\nconda activate metagenomicsTraining\nA estrutura de diretórios a seguir ajudará na organização dos arquivos baixados, arquivos intermediários e seus outputs:\nmkdir -p ./Pipeline/{result,data/{merged,assembled,collapsed,removal/{index,reference},raw,trimmed},alignment/{db,index},taxonomic/db,functional/db}",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Organizando Ambiente para Análise</span>"
     ]
