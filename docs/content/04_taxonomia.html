@@ -202,7 +202,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#contexto" id="toc-contexto" class="nav-link active" data-scroll-target="#contexto"><span class="header-section-number">4.1</span> Contexto</a></li>
-  <li><a href="#realizando-a-classificação-taxonômica" id="toc-realizando-a-classificação-taxonômica" class="nav-link" data-scroll-target="#realizando-a-classificação-taxonômica"><span class="header-section-number">4.2</span> Realizando a classificação taxonômica</a></li>
+  <li><a href="#adquirindo-o-banco-de-dados" id="toc-adquirindo-o-banco-de-dados" class="nav-link" data-scroll-target="#adquirindo-o-banco-de-dados"><span class="header-section-number">4.2</span> Adquirindo o banco de dados</a></li>
+  <li><a href="#realizando-a-classificação-taxonômica" id="toc-realizando-a-classificação-taxonômica" class="nav-link" data-scroll-target="#realizando-a-classificação-taxonômica"><span class="header-section-number">4.3</span> Realizando a classificação taxonômica</a></li>
   </ul>
 </nav>
     </div>
@@ -228,35 +229,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="contexto" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="contexto"><span class="header-section-number">4.1</span> Contexto</h2>
+<p>O passo de classificação taxonômica trata de classificar as sequências mistas, sejam leituras ou contíguas, de uma amostra metagenômica em táxons claramente definidos, e tipicamente acompanha um perfil de abundância desses táxons.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/sabeti_2019.jpg" class="img-fluid figure-img"></p>
+<figcaption><a href="https://doi.org/10.1016/j.cell.2019.07.010">Ye et al, 2019</a></figcaption>
+</figure>
+</div>
+</section>
+<section id="adquirindo-o-banco-de-dados" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="adquirindo-o-banco-de-dados"><span class="header-section-number">4.2</span> Adquirindo o banco de dados</h2>
+<p>Mude o diretório atual para <code>"Pipeline/alignment/db"</code> (pois esse banco também será usado na seção <a href="05_anotacao.html#sec-diamond" class="quarto-xref"><span>Seção 5.1.1</span></a>, do alinhamento) e baixe o banco de dados de proteínas do NCBI-nr:</p>
 <div class="callout callout-style-simple callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-WORK IN PROGRESS
+Aviso
 </div>
 </div>
 <div class="callout-body-container callout-body">
-
+<p>O banco de dados é <strong>muito grande</strong> e <strong>inviável</strong> de se instalar em um computador pessoal. Use um cluster de alta performance ou ambientes similares!</p>
 </div>
 </div>
-<section id="contexto" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="contexto"><span class="header-section-number">4.1</span> Contexto</h2>
-</section>
-<section id="realizando-a-classificação-taxonômica" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="realizando-a-classificação-taxonômica"><span class="header-section-number">4.2</span> Realizando a classificação taxonômica</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz  </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pigz <span class="at">-d</span> nr.gz <span class="at">-p</span> 8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Construa um índice DIAMOND:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> diamond makedb <span class="at">--in</span> nr <span class="at">-d</span> ../index/nr  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Mude o diretório atual para “Pipeline/taxonomic/db” e baixe os seguintes arquivos:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Esses são os bancos de dados que utilizaremos para executar o Kaiju</p>
 <p>Extraia e descompacte os arquivos necessários:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> tar <span class="at">-xf</span> taxdump.tar.gz nodes.dmp names.dmp</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pigz <span class="at">-d</span> prot.accession2taxid.gz <span class="at">-p</span> 8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xf</span> taxdump.tar.gz nodes.dmp names.dmp</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pigz</span> <span class="at">-d</span> prot.accession2taxid.gz <span class="at">-p</span> 8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Construa um índice Kaiju:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju-convertNR <span class="at">-t</span> nodes.dmp <span class="at">-g</span> prot.accession2taxid <span class="at">-e</span> ~/miniconda3/envs/medusaPipeline/bin/kaiju-excluded-accessions.txt <span class="at">-a</span> <span class="at">-o</span> kaijuNR.fasta <span class="at">-i</span> ../../alignment/db/nr</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju-mkbwt <span class="at">-n</span> 8 <span class="at">-a</span> ACDEFGHIKLMNPQRSTVWY <span class="at">-o</span> kaijuNR kaijuNR.fasta</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju-mkfmi kaijuNR</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju-convertNR</span> <span class="at">-t</span> nodes.dmp <span class="at">-g</span> prot.accession2taxid <span class="at">-e</span> ~/miniconda3/envs/medusaPipeline/bin/kaiju-excluded-accessions.txt <span class="at">-a</span> <span class="at">-o</span> kaijuNR.fasta <span class="at">-i</span> ../../alignment/db/nr</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju-mkbwt</span> <span class="at">-n</span> 8 <span class="at">-a</span> ACDEFGHIKLMNPQRSTVWY <span class="at">-o</span> kaijuNR kaijuNR.fasta</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju-mkfmi</span> kaijuNR</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -270,13 +283,16 @@ Nota
 <p>Na chamada <code>kaiju-convertNR</code>, por padrão, são incluídas apenas sequências de Archaea, Bactérias e Vírus do NCBI-nr. Este comportamento pode ser alterado com o argumento <code>-l</code>, passando um arquivo de entrada como <code>~/miniconda3/envs/medusaPipeline/bin/kaiju-taxonlistEuk.tsv</code>. Este argumento utiliza apenas sequências com ancestrais listados no arquivo.</p>
 </div>
 </div>
+</section>
+<section id="realizando-a-classificação-taxonômica" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="realizando-a-classificação-taxonômica"><span class="header-section-number">4.3</span> Realizando a classificação taxonômica</h2>
 <p>Mude o diretório atual para “Pipeline/taxonomic” e execute a classificação taxonômica:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju <span class="at">-t</span> db/nodes.dmp <span class="at">-f</span> db/kaijuNR.fmi <span class="at">-i</span> ../data/removal/unaligned_1.fastq <span class="at">-j</span> ../data/removal/unaligned_2.fastq <span class="at">-o</span> ../result/SRR579292_kaiju.out <span class="at">-z</span> 8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju</span> <span class="at">-t</span> db/nodes.dmp <span class="at">-f</span> db/kaijuNR.fmi <span class="at">-i</span> ../data/removal/unaligned_1.fastq <span class="at">-j</span> ../data/removal/unaligned_2.fastq <span class="at">-o</span> ../result/SRR579292_kaiju.out <span class="at">-z</span> 8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Adicione os nomes dos táxons ao output:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju-addTaxonNames <span class="at">-t</span> db/nodes.dmp <span class="at">-n</span> db/names.dmp <span class="at">-r</span> superkingdom,phylum,class,order,family,genus,species <span class="at">-i</span> ../result/SRR579292_kaiju.out <span class="at">-o</span> ../result/SRR579292_kaiju.names</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju-addTaxonNames</span> <span class="at">-t</span> db/nodes.dmp <span class="at">-n</span> db/names.dmp <span class="at">-r</span> superkingdom,phylum,class,order,family,genus,species <span class="at">-i</span> ../result/SRR579292_kaiju.out <span class="at">-o</span> ../result/SRR579292_kaiju.names</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Gere os gráficos Krona:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> kaiju2krona <span class="at">-t</span> db/nodes.dmp <span class="at">-n</span> db/names.dmp <span class="at">-i</span> ../result/SRR579292_kaiju.out <span class="at">-o</span> ../result/SRR579292_kaiju2krona.out</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ktImportText <span class="at">-o</span> ../result/SRR579292_krona.html ../result/SRR579292_kaiju2krona.out</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju2krona</span> <span class="at">-t</span> db/nodes.dmp <span class="at">-n</span> db/names.dmp <span class="at">-i</span> ../result/SRR579292_kaiju.out <span class="at">-o</span> ../result/SRR579292_kaiju2krona.out</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ktImportText</span> <span class="at">-o</span> ../result/SRR579292_krona.html ../result/SRR579292_kaiju2krona.out</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

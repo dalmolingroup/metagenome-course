@@ -7,7 +7,27 @@ e tipicamente acompanha um perfil de abundância desses táxons.
 
 ![[Ye et al, 2019](https://doi.org/10.1016/j.cell.2019.07.010)](images/sabeti_2019.jpg)
 
-## Realizando a classificação taxonômica
+## Adquirindo o banco de dados
+
+Mude o diretório atual para `"Pipeline/alignment/db"` (pois esse banco também será usado na seção [@sec-diamond], do alinhamento) e baixe o banco de dados de proteínas do NCBI-nr:  
+
+::: callout-warning
+## Aviso
+
+O banco de dados é **muito grande** e **inviável** de se instalar em um computador pessoal.
+Use um cluster de alta performance ou ambientes similares!
+:::
+
+```bash
+$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz  
+$ pigz -d nr.gz -p 8  
+```
+
+Construa um índice DIAMOND:  
+
+```bash
+$ diamond makedb --in nr -d ../index/nr  
+```
 
 Mude o diretório atual para "Pipeline/taxonomic/db" e baixe os seguintes arquivos:
 
@@ -36,6 +56,8 @@ kaiju-mkfmi kaijuNR
 
 Na chamada `kaiju-convertNR`, por padrão, são incluídas apenas sequências de Archaea, Bactérias e Vírus do NCBI-nr. Este comportamento pode ser alterado com o argumento `-l`, passando um arquivo de entrada como `~/miniconda3/envs/medusaPipeline/bin/kaiju-taxonlistEuk.tsv`. Este argumento utiliza apenas sequências com ancestrais listados no arquivo.
 :::
+
+## Realizando a classificação taxonômica
 
 Mude o diretório atual para "Pipeline/taxonomic" e execute a classificação taxonômica:
 ```bash

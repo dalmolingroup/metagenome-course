@@ -12,28 +12,6 @@ Mas, para fazer isso, primeiro precisamos alinhar nosso dado a uma referência!
 
 ### Alinhamento {#sec-diamond}
 
-#### Adquirindo o banco de dados
-
-Mude o diretório atual para `"Pipeline/alignment/db"` e baixe o banco de dados de proteínas do NCBI-nr:  
-
-::: callout-warning
-## Aviso
-
-O banco de dados é **muito grande** e **inviável** de se instalar em um computador pessoal.
-Use um cluster de alta performance ou ambientes similares!
-:::
-
-```bash
-$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz  
-$ pigz -d nr.gz -p 8  
-```
-
-Construa um índice DIAMOND:  
-
-```bash
-$ diamond makedb --in nr -d ../index/nr  
-```
-
 #### Realizando o alinhamento
 
 Mude o diretório atual para `"Pipeline/alignment"` e alinhe as leituras contra o banco de dados de proteínas de referência:  
