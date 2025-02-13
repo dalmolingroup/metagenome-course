@@ -14,7 +14,7 @@ Vamos montar as leituras pós-descontaminação usando o MEGAHIT:
 
 ``` bash
 megahit -1 ../removal/unaligned_1.fastq -2
-../removal/unaligned_2.fastq -o SRR579292 -t 8 
+../removal/unaligned_2.fastq -o SRR579292 -t 8
 ```
 
 O arquivo de saída `SRR579292.contigs.fa` contém as sequências contíguas correspondentes às leituras usadas.

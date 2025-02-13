@@ -7,19 +7,19 @@ Mude para o diretório `Pipeline/data` e baixe os dados de exemplo:
 ``` bash
 cd Pipeline/data
 
-prefetch SRR579292 -X 20G  
+prefetch SRR579292 -X 20G
 ```
 
 ::: callout-note
 ## Nota
 
-No comando `prefetch`, o argumento `-X` especifica o tamanho máximo do arquivo a ser baixado (adapte esse argumento se necessário).  
+No comando `prefetch`, o argumento `-X` especifica o tamanho máximo do arquivo a ser baixado (adapte esse argumento se necessário).
 :::
 
-Obtenha as leituras paired-end:  
+Obtenha as leituras paired-end:
 
 ```bash
-fasterq-dump SRR579292 -e 8  
+fasterq-dump SRR579292 -e 8
 ```
 
 ::: callout-note
@@ -61,7 +61,7 @@ Para gerar relatórios de controle de qualidade com o FastQC para cada uma das a
 
 ``` bash
 # Gerando relatórios de qualidade para cada amostra
-for sample in $(ls Pipeline/data/*.fastq.gz); 
+for sample in $(ls Pipeline/data/*.fastq.gz);
 do
 fastqc $sample -o Pipeline/data
 done
@@ -70,7 +70,7 @@ done
 Gere o relatório consolidado contendo todas as amostras a partir do output do FastQC:
 
 ``` bash
-# Consolidando relatórios com MultiQC 
+# Consolidando relatórios com MultiQC
 multiqc Pipeline/data
 ```
 
@@ -88,78 +88,78 @@ Como vimos na seção anterior, nosso arquivo pode ter sequências de baixa qual
 a fim de não permitir que interfiram com ruído na informação biológica real.
 
 Para isso, obteremos uma amostra de sequenciamento (que será utilizada em todas as seções posteriores) e a processaremos com
-ferramentas de controle de qualidade, além de alinhar a amostra, de origem na microbiota humana, contra o genoma referência do 
+ferramentas de controle de qualidade, além de alinhar a amostra, de origem na microbiota humana, contra o genoma referência do
 hospedeiro, garantido que tenhamos apenas sequências advindas da microbiota.
 
-### Removendo sequências de baixa qualidade 
+### Removendo sequências de baixa qualidade
 
-Remova sequências de baixa qualidade e adaptadores:  
+Remova sequências de baixa qualidade e adaptadores:
 
 ```bash
-fastp -i SRR579292_1.fastq -I SRR579292_2.fastq -o trimmed/SRR579292_1_trim.fastq -O trimmed/SRR579292_2_trim.fastq -q 20 -w 8 --detect_adapter_for_pe -h trimmed/report.html -j trimmed/fastp.json  
+fastp -i SRR579292_1.fastq -I SRR579292_2.fastq -o trimmed/SRR579292_1_trim.fastq -O trimmed/SRR579292_2_trim.fastq -q 20 -w 8 --detect_adapter_for_pe -h trimmed/report.html -j trimmed/fastp.json
 ```
 
 ::: callout-note
 ## Nota
 
-No comando `fastp`, o argumento `-q` define o limiar da pontuação de qualidade Phred, e `-w` especifica o número de threads a serem usadas (adapte esses argumentos se necessário).  
+No comando `fastp`, o argumento `-q` define o limiar da pontuação de qualidade Phred, e `-w` especifica o número de threads a serem usadas (adapte esses argumentos se necessário).
 :::
 
 Um genoma de referência de *Homo sapiens* é necessário para remover as sequências do hospedeiro desses dados. Mude o diretório atual para `"Pipeline/data/removal/reference"` e baixe um genoma de referência do Ensembl.
 
-### Remoção de Sequências do Hospedeiro  
+### Remoção de Sequências do Hospedeiro
 
-Baixe o genoma de referência de *Homo sapiens* do Ensembl:  
+Baixe o genoma de referência de *Homo sapiens* do Ensembl:
 
 ```bash
-wget ftp://ftp.ensembl.org/pub/release-102/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz  
-pigz -d Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz -p 8  
+wget ftp://ftp.ensembl.org/pub/release-102/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+pigz -d Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz -p 8
 ```
 
 ::: callout-note
 ## Nota
 
-O software `pigz` é uma implementação paralela do `gzip`. O argumento `-p` especifica o número de threads a serem usadas.  
+O software `pigz` é uma implementação paralela do `gzip`. O argumento `-p` especifica o número de threads a serem usadas.
 :::
 
-Construa um índice Bowtie2:  
+Construa um índice Bowtie2:
 
 ```bash
-bowtie2-build Homo_sapiens.GRCh38.dna.primary_assembly.fa ../index/host --threads 8  
+bowtie2-build Homo_sapiens.GRCh38.dna.primary_assembly.fa ../index/host --threads 8
 ```
 
-Volte para `"Pipeline/data"` e alinhe as sequências contra a referência:  
+Volte para `"Pipeline/data"` e alinhe as sequências contra a referência:
 
 ```bash
-bowtie2 -x removal/index/host -1 trimmed/SRR579292_1_trim.fastq -2 trimmed/SRR579292_2_trim.fastq -S removal/all.sam -p 8  
+bowtie2 -x removal/index/host -1 trimmed/SRR579292_1_trim.fastq -2 trimmed/SRR579292_2_trim.fastq -S removal/all.sam -p 8
 ```
 
-Extraia as leituras não alinhadas:  
+Extraia as leituras não alinhadas:
 
 ```bash
-samtools view -bS removal/all.sam > removal/all.bam  
-samtools view -b -f 12 -F 256 removal/all.bam > removal/unaligned.bam  
-samtools sort -n removal/unaligned.bam -o removal/unaligned_sorted.bam  
-samtools bam2fq removal/unaligned_sorted.bam > removal/unaligned.fastq  
-cat removal/unaligned.fastq | grep '^@.*/1$' -A 3 --no-group-separator > removal/unaligned_1.fastq  
-cat removal/unaligned.fastq | grep '^@.*/2$' -A 3 --no-group-separator > removal/unaligned_2.fastq  
+samtools view -bS removal/all.sam > removal/all.bam
+samtools view -b -f 12 -F 256 removal/all.bam > removal/unaligned.bam
+samtools sort -n removal/unaligned.bam -o removal/unaligned_sorted.bam
+samtools bam2fq removal/unaligned_sorted.bam > removal/unaligned.fastq
+cat removal/unaligned.fastq | grep '^@.*/1$' -A 3 --no-group-separator > removal/unaligned_1.fastq
+cat removal/unaligned.fastq | grep '^@.*/2$' -A 3 --no-group-separator > removal/unaligned_2.fastq
 ```
 
 ::: callout-note
 ## Nota
 
-No comando `SAMtools`, os argumentos `-f` e `-F` utilizam flags para especificar, respectivamente, quais alinhamentos devem ser extraídos e quais não devem ser extraídos. Consulte [esta documentação](http://broadinstitute.github.io/picard/explain-flags.html) para saber mais sobre as flags disponíveis no SAMtools.  
+No comando `SAMtools`, os argumentos `-f` e `-F` utilizam flags para especificar, respectivamente, quais alinhamentos devem ser extraídos e quais não devem ser extraídos. Consulte [esta documentação](http://broadinstitute.github.io/picard/explain-flags.html) para saber mais sobre as flags disponíveis no SAMtools.
 :::
 
 
-Una as leituras paired-end:  
+Una as leituras paired-end:
 
 ```bash
-fastp -i removal/unaligned_1.fastq -I removal/unaligned_2.fastq -o trimmed/unmerged_1.fastq -O trimmed/unmerged_2.fastq -q 20 -w 8 --detect_adapter_for_pe -h trimmed/report2.html -j trimmed/fastp2.json -m --merged_out merged/SRR579292_merged.fastq  
+fastp -i removal/unaligned_1.fastq -I removal/unaligned_2.fastq -o trimmed/unmerged_1.fastq -O trimmed/unmerged_2.fastq -q 20 -w 8 --detect_adapter_for_pe -h trimmed/report2.html -j trimmed/fastp2.json -m --merged_out merged/SRR579292_merged.fastq
 ```
 
-Remova sequências duplicadas:  
+Remova sequências duplicadas:
 
 ```bash
-fastx_collapser -i merged/SRR579292_merged.fastq -o collapsed/SRR579292.fasta  
+fastx_collapser -i merged/SRR579292_merged.fastq -o collapsed/SRR579292.fasta
 ```

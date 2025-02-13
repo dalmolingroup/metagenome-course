@@ -3,13 +3,13 @@
 ## Contexto
 
 O passo de classificação taxonômica trata de classificar as sequências mistas, sejam leituras ou contíguas, de uma amostra metagenômica em táxons claramente definidos,
-e tipicamente acompanha um perfil de abundância desses táxons. 
+e tipicamente acompanha um perfil de abundância desses táxons.
 
 ![[Ye et al, 2019](https://doi.org/10.1016/j.cell.2019.07.010)](images/sabeti_2019.jpg)
 
 ## Adquirindo o banco de dados
 
-Mude o diretório atual para `"Pipeline/alignment/db"` (pois esse banco também será usado na seção [@sec-diamond], do alinhamento) e baixe o banco de dados de proteínas do NCBI-nr:  
+Mude o diretório atual para `"Pipeline/alignment/db"` (pois esse banco também será usado na seção [@sec-diamond], do alinhamento) e baixe o banco de dados de proteínas do NCBI-nr:
 
 ::: callout-warning
 ## Aviso
@@ -19,14 +19,14 @@ Use um cluster de alta performance ou ambientes similares!
 :::
 
 ```bash
-wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz  
-pigz -d nr.gz -p 8  
+wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz
+pigz -d nr.gz -p 8
 ```
 
-Construa um índice DIAMOND:  
+Construa um índice DIAMOND:
 
 ```bash
-diamond makedb --in nr -d ../index/nr  
+diamond makedb --in nr -d ../index/nr
 ```
 
 Mude o diretório atual para "Pipeline/taxonomic/db" e baixe os seguintes arquivos:

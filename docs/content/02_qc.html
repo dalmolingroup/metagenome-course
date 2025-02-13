@@ -244,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Mude para o diretório <code>Pipeline/data</code> e baixe os dados de exemplo:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Pipeline/data</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">prefetch</span> SRR579292 <span class="at">-X</span> 20G  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">prefetch</span> SRR579292 <span class="at">-X</span> 20G</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -259,7 +259,7 @@ Nota
 </div>
 </div>
 <p>Obtenha as leituras paired-end:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fasterq-dump</span> SRR579292 <span class="at">-e</span> 8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fasterq-dump</span> SRR579292 <span class="at">-e</span> 8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -310,12 +310,12 @@ Nota
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="gerando-relatórios-de-qualidade"><span class="header-section-number">2.2.3</span> Gerando Relatórios de Qualidade</h3>
 <p>Para gerar relatórios de controle de qualidade com o FastQC para cada uma das amostras baixadas, use o seguinte comando:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerando relatórios de qualidade para cada amostra</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> Pipeline/data/<span class="pp">*</span>.fastq.gz<span class="va">)</span><span class="kw">;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> Pipeline/data/<span class="pp">*</span>.fastq.gz<span class="va">)</span><span class="kw">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="va">$sample</span> <span class="at">-o</span> Pipeline/data</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Gere o relatório consolidado contendo todas as amostras a partir do output do FastQC:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consolidando relatórios com MultiQC </span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consolidando relatórios com MultiQC</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> Pipeline/data</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -342,7 +342,7 @@ Interpretando os resultados do MultiQC
 <section id="removendo-sequências-de-baixa-qualidade" class="level3" data-number="2.3.2">
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="removendo-sequências-de-baixa-qualidade"><span class="header-section-number">2.3.2</span> Removendo sequências de baixa qualidade</h3>
 <p>Remova sequências de baixa qualidade e adaptadores:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastp</span> <span class="at">-i</span> SRR579292_1.fastq <span class="at">-I</span> SRR579292_2.fastq <span class="at">-o</span> trimmed/SRR579292_1_trim.fastq <span class="at">-O</span> trimmed/SRR579292_2_trim.fastq <span class="at">-q</span> 20 <span class="at">-w</span> 8 <span class="at">--detect_adapter_for_pe</span> <span class="at">-h</span> trimmed/report.html <span class="at">-j</span> trimmed/fastp.json  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastp</span> <span class="at">-i</span> SRR579292_1.fastq <span class="at">-I</span> SRR579292_2.fastq <span class="at">-o</span> trimmed/SRR579292_1_trim.fastq <span class="at">-O</span> trimmed/SRR579292_2_trim.fastq <span class="at">-q</span> 20 <span class="at">-w</span> 8 <span class="at">--detect_adapter_for_pe</span> <span class="at">-h</span> trimmed/report.html <span class="at">-j</span> trimmed/fastp.json</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -361,8 +361,8 @@ Nota
 <section id="remoção-de-sequências-do-hospedeiro" class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="remoção-de-sequências-do-hospedeiro"><span class="header-section-number">2.3.3</span> Remoção de Sequências do Hospedeiro</h3>
 <p>Baixe o genoma de referência de <em>Homo sapiens</em> do Ensembl:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> ftp://ftp.ensembl.org/pub/release-102/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz  </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pigz</span> <span class="at">-d</span> Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz <span class="at">-p</span> 8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> ftp://ftp.ensembl.org/pub/release-102/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pigz</span> <span class="at">-d</span> Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz <span class="at">-p</span> 8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -377,16 +377,16 @@ Nota
 </div>
 </div>
 <p>Construa um índice Bowtie2:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie2-build</span> Homo_sapiens.GRCh38.dna.primary_assembly.fa ../index/host <span class="at">--threads</span> 8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie2-build</span> Homo_sapiens.GRCh38.dna.primary_assembly.fa ../index/host <span class="at">--threads</span> 8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Volte para <code>"Pipeline/data"</code> e alinhe as sequências contra a referência:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie2</span> <span class="at">-x</span> removal/index/host <span class="at">-1</span> trimmed/SRR579292_1_trim.fastq <span class="at">-2</span> trimmed/SRR579292_2_trim.fastq <span class="at">-S</span> removal/all.sam <span class="at">-p</span> 8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie2</span> <span class="at">-x</span> removal/index/host <span class="at">-1</span> trimmed/SRR579292_1_trim.fastq <span class="at">-2</span> trimmed/SRR579292_2_trim.fastq <span class="at">-S</span> removal/all.sam <span class="at">-p</span> 8</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Extraia as leituras não alinhadas:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-bS</span> removal/all.sam <span class="op">&gt;</span> removal/all.bam  </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-f</span> 12 <span class="at">-F</span> 256 removal/all.bam <span class="op">&gt;</span> removal/unaligned.bam  </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort <span class="at">-n</span> removal/unaligned.bam <span class="at">-o</span> removal/unaligned_sorted.bam  </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> bam2fq removal/unaligned_sorted.bam <span class="op">&gt;</span> removal/unaligned.fastq  </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> removal/unaligned.fastq <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'^@.*/1$'</span> <span class="at">-A</span> 3 <span class="at">--no-group-separator</span> <span class="op">&gt;</span> removal/unaligned_1.fastq  </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> removal/unaligned.fastq <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'^@.*/2$'</span> <span class="at">-A</span> 3 <span class="at">--no-group-separator</span> <span class="op">&gt;</span> removal/unaligned_2.fastq  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-bS</span> removal/all.sam <span class="op">&gt;</span> removal/all.bam</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-f</span> 12 <span class="at">-F</span> 256 removal/all.bam <span class="op">&gt;</span> removal/unaligned.bam</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort <span class="at">-n</span> removal/unaligned.bam <span class="at">-o</span> removal/unaligned_sorted.bam</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> bam2fq removal/unaligned_sorted.bam <span class="op">&gt;</span> removal/unaligned.fastq</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> removal/unaligned.fastq <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'^@.*/1$'</span> <span class="at">-A</span> 3 <span class="at">--no-group-separator</span> <span class="op">&gt;</span> removal/unaligned_1.fastq</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> removal/unaligned.fastq <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'^@.*/2$'</span> <span class="at">-A</span> 3 <span class="at">--no-group-separator</span> <span class="op">&gt;</span> removal/unaligned_2.fastq</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -401,9 +401,9 @@ Nota
 </div>
 </div>
 <p>Una as leituras paired-end:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastp</span> <span class="at">-i</span> removal/unaligned_1.fastq <span class="at">-I</span> removal/unaligned_2.fastq <span class="at">-o</span> trimmed/unmerged_1.fastq <span class="at">-O</span> trimmed/unmerged_2.fastq <span class="at">-q</span> 20 <span class="at">-w</span> 8 <span class="at">--detect_adapter_for_pe</span> <span class="at">-h</span> trimmed/report2.html <span class="at">-j</span> trimmed/fastp2.json <span class="at">-m</span> <span class="at">--merged_out</span> merged/SRR579292_merged.fastq  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastp</span> <span class="at">-i</span> removal/unaligned_1.fastq <span class="at">-I</span> removal/unaligned_2.fastq <span class="at">-o</span> trimmed/unmerged_1.fastq <span class="at">-O</span> trimmed/unmerged_2.fastq <span class="at">-q</span> 20 <span class="at">-w</span> 8 <span class="at">--detect_adapter_for_pe</span> <span class="at">-h</span> trimmed/report2.html <span class="at">-j</span> trimmed/fastp2.json <span class="at">-m</span> <span class="at">--merged_out</span> merged/SRR579292_merged.fastq</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Remova sequências duplicadas:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastx_collapser</span> <span class="at">-i</span> merged/SRR579292_merged.fastq <span class="at">-o</span> collapsed/SRR579292.fasta  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastx_collapser</span> <span class="at">-i</span> merged/SRR579292_merged.fastq <span class="at">-o</span> collapsed/SRR579292.fasta</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
