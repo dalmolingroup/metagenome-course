@@ -39,5 +39,3 @@ format:
     code-block-bg: true
     code-block-border-left: "#b19cd9"
     highlight-style: github
-  pdf:
-    documentclass: scrreprt
