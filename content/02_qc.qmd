@@ -19,7 +19,7 @@ No comando `prefetch`, o argumento `-X` especifica o tamanho máximo do arquivo 
 Obtenha as leituras paired-end:  
 
 ```bash
-$ fasterq-dump SRR579292 -e 8  
+fasterq-dump SRR579292 -e 8  
 ```
 
 ::: callout-note
@@ -71,7 +71,7 @@ Gere o relatório consolidado contendo todas as amostras a partir do output do F
 
 ``` bash
 # Consolidando relatórios com MultiQC 
-$ multiqc Pipeline/data
+multiqc Pipeline/data
 ```
 
 ::: callout-tip
@@ -96,7 +96,7 @@ hospedeiro, garantido que tenhamos apenas sequências advindas da microbiota.
 Remova sequências de baixa qualidade e adaptadores:  
 
 ```bash
-$ fastp -i SRR579292_1.fastq -I SRR579292_2.fastq -o trimmed/SRR579292_1_trim.fastq -O trimmed/SRR579292_2_trim.fastq -q 20 -w 8 --detect_adapter_for_pe -h trimmed/report.html -j trimmed/fastp.json  
+fastp -i SRR579292_1.fastq -I SRR579292_2.fastq -o trimmed/SRR579292_1_trim.fastq -O trimmed/SRR579292_2_trim.fastq -q 20 -w 8 --detect_adapter_for_pe -h trimmed/report.html -j trimmed/fastp.json  
 ```
 
 ::: callout-note
@@ -112,8 +112,8 @@ Um genoma de referência de *Homo sapiens* é necessário para remover as sequê
 Baixe o genoma de referência de *Homo sapiens* do Ensembl:  
 
 ```bash
-$ wget ftp://ftp.ensembl.org/pub/release-102/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz  
-$ pigz -d Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz -p 8  
+wget ftp://ftp.ensembl.org/pub/release-102/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz  
+pigz -d Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz -p 8  
 ```
 
 ::: callout-note
@@ -125,24 +125,24 @@ O software `pigz` é uma implementação paralela do `gzip`. O argumento `-p` es
 Construa um índice Bowtie2:  
 
 ```bash
-$ bowtie2-build Homo_sapiens.GRCh38.dna.primary_assembly.fa ../index/host --threads 8  
+bowtie2-build Homo_sapiens.GRCh38.dna.primary_assembly.fa ../index/host --threads 8  
 ```
 
 Volte para `"Pipeline/data"` e alinhe as sequências contra a referência:  
 
 ```bash
-$ bowtie2 -x removal/index/host -1 trimmed/SRR579292_1_trim.fastq -2 trimmed/SRR579292_2_trim.fastq -S removal/all.sam -p 8  
+bowtie2 -x removal/index/host -1 trimmed/SRR579292_1_trim.fastq -2 trimmed/SRR579292_2_trim.fastq -S removal/all.sam -p 8  
 ```
 
 Extraia as leituras não alinhadas:  
 
 ```bash
-$ samtools view -bS removal/all.sam > removal/all.bam  
-$ samtools view -b -f 12 -F 256 removal/all.bam > removal/unaligned.bam  
-$ samtools sort -n removal/unaligned.bam -o removal/unaligned_sorted.bam  
-$ samtools bam2fq removal/unaligned_sorted.bam > removal/unaligned.fastq  
-$ cat removal/unaligned.fastq | grep '^@.*/1$' -A 3 --no-group-separator > removal/unaligned_1.fastq  
-$ cat removal/unaligned.fastq | grep '^@.*/2$' -A 3 --no-group-separator > removal/unaligned_2.fastq  
+samtools view -bS removal/all.sam > removal/all.bam  
+samtools view -b -f 12 -F 256 removal/all.bam > removal/unaligned.bam  
+samtools sort -n removal/unaligned.bam -o removal/unaligned_sorted.bam  
+samtools bam2fq removal/unaligned_sorted.bam > removal/unaligned.fastq  
+cat removal/unaligned.fastq | grep '^@.*/1$' -A 3 --no-group-separator > removal/unaligned_1.fastq  
+cat removal/unaligned.fastq | grep '^@.*/2$' -A 3 --no-group-separator > removal/unaligned_2.fastq  
 ```
 
 ::: callout-note
@@ -155,11 +155,11 @@ No comando `SAMtools`, os argumentos `-f` e `-F` utilizam flags para especificar
 Una as leituras paired-end:  
 
 ```bash
-$ fastp -i removal/unaligned_1.fastq -I removal/unaligned_2.fastq -o trimmed/unmerged_1.fastq -O trimmed/unmerged_2.fastq -q 20 -w 8 --detect_adapter_for_pe -h trimmed/report2.html -j trimmed/fastp2.json -m --merged_out merged/SRR579292_merged.fastq  
+fastp -i removal/unaligned_1.fastq -I removal/unaligned_2.fastq -o trimmed/unmerged_1.fastq -O trimmed/unmerged_2.fastq -q 20 -w 8 --detect_adapter_for_pe -h trimmed/report2.html -j trimmed/fastp2.json -m --merged_out merged/SRR579292_merged.fastq  
 ```
 
 Remova sequências duplicadas:  
 
 ```bash
-$ fastx_collapser -i merged/SRR579292_merged.fastq -o collapsed/SRR579292.fasta  
+fastx_collapser -i merged/SRR579292_merged.fastq -o collapsed/SRR579292.fasta  
 ```

@@ -241,8 +241,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="realizando-o-alinhamento" class="level4" data-number="5.1.1.1">
 <h4 data-number="5.1.1.1" class="anchored" data-anchor-id="realizando-o-alinhamento"><span class="header-section-number">5.1.1.1</span> Realizando o alinhamento</h4>
 <p>Mude o diretório atual para <code>"Pipeline/alignment"</code> e alinhe as leituras contra o banco de dados de proteínas de referência:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch unaligned.fasta  </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> diamond blastx <span class="at">-d</span> index/nr <span class="at">-q</span> ../data/collapsed/SRR579292.fasta <span class="at">-o</span> matches.m8 <span class="at">--top</span> 3 <span class="at">--un</span> unaligned.fasta  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> unaligned.fasta  </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">diamond</span> blastx <span class="at">-d</span> index/nr <span class="at">-q</span> ../data/collapsed/SRR579292.fasta <span class="at">-o</span> matches.m8 <span class="at">--top</span> 3 <span class="at">--un</span> unaligned.fasta  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -258,8 +258,8 @@ Nota
 </div>
 </div>
 <p>Realize um alinhamento mais sensível usando as sequências não alinhadas:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch unaligned2.fasta  </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> diamond blastx <span class="at">-d</span> index/nr <span class="at">-q</span> unaligned.fasta <span class="at">-o</span> matches2.m8 <span class="at">--more-sensitive</span> <span class="at">--top</span> 3 <span class="at">--un</span> unaligned2.fasta  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> unaligned2.fasta  </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">diamond</span> blastx <span class="at">-d</span> index/nr <span class="at">-q</span> unaligned.fasta <span class="at">-o</span> matches2.m8 <span class="at">--more-sensitive</span> <span class="at">--top</span> 3 <span class="at">--un</span> unaligned2.fasta  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -274,12 +274,12 @@ Nota
 </div>
 </div>
 <p>Verifique o número de consultas que apresentam hits com pelo menos 80% de identidade em <code>matches2.m8</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> awk <span class="st">'{ if ($3&gt;=80) { print } }'</span> matches2.m8 <span class="op">&gt;</span> check.m8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> awk <span class="st">'{a[$1]++}END{for (i in a) sum+=1; print sum}'</span> check.m8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'{ if ($3&gt;=80) { print } }'</span> matches2.m8 <span class="op">&gt;</span> check.m8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">'{a[$1]++}END{for (i in a) sum+=1; print sum}'</span> check.m8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="concatenar-os-resultados-do-alinhamento" class="level4" data-number="5.1.1.2">
 <h4 data-number="5.1.1.2" class="anchored" data-anchor-id="concatenar-os-resultados-do-alinhamento"><span class="header-section-number">5.1.1.2</span> Concatenar os resultados do alinhamento:</h4>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat matches.m8 matches2.m8 <span class="op">&gt;</span> all_matches.m8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> matches.m8 matches2.m8 <span class="op">&gt;</span> all_matches.m8  </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="executando-o-annotate" class="level3" data-number="5.1.2">
