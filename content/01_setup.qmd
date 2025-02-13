@@ -1,7 +1,7 @@
 # Organizando Ambiente para Análise
 
 Primeiro, é necessário criar e ativar um ambiente Conda que contenha todas as ferramentas necessárias para os próximos passos.
-Caso ainda não tenha o Conda instalado, siga as instruções [neste link](link para instalar o conda).
+Caso ainda não tenha o Conda instalado, siga as instruções [neste link](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 
 Vá até [este link](https://github.com/dalmolingroup/metagenome-course/blob/master/environment.yml) para adquirir o arquivo `environment.yml`.
 
