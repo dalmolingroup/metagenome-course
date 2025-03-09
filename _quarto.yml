@@ -29,6 +29,24 @@ knitr:
     results: false
 
 format:
+  pdf:
+    keep-tex: true
+    include-in-header: 
+      text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+    include-before-body:
+      text: |
+        \RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+          showspaces = false,
+          showtabs = false,
+          breaksymbolleft={},
+          breaklines
+          % Note: setting commandchars=\\\{\} here will cause an error 
+        }
+    theme:
+      light: flatly
+      dark: darkly
   html:
     theme:
       light: flatly
