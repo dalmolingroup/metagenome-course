@@ -40,13 +40,13 @@ Esses são os bancos de dados que utilizaremos para executar o Kaiju
 
 Extraia e descompacte os arquivos necessários:
 ```bash
-tar -xf taxdump.tar.gz nodes.dmp names.dmp
+tar -xf taxdump.tar.gz nodes.dmp names.dmp merged.dmp
 pigz -d prot.accession2taxid.gz -p 8
 ```
 
 Construa um índice Kaiju:
 ```bash
-kaiju-convertNR -t nodes.dmp -g prot.accession2taxid -e ~/miniconda3/envs/medusaPipeline/bin/kaiju-excluded-accessions.txt -a -o kaijuNR.fasta -i ../../alignment/db/nr
+kaiju-convertNR -t nodes.dmp -g prot.accession2taxid -m merged.dmp -e ~/miniconda3/envs/medusaPipeline/bin/kaiju-excluded-accessions.txt -a -o kaijuNR.fasta -i ../../alignment/db/nr
 kaiju-mkbwt -n 8 -a ACDEFGHIKLMNPQRSTVWY -o kaijuNR kaijuNR.fasta
 kaiju-mkfmi kaijuNR
 ```
